@@ -1,1 +1,23 @@
 /.idea
+
+# dependencies
+/foolstack-client/node_modules
+/foolstack-client/.pnp
+/foolstack-client/.pnp.js
+
+# testing
+/foolstack-client/coverage
+
+# production
+/foolstack-client/build
+
+# misc
+/foolstack-client/.DS_Store
+/foolstack-client/.env.local
+/foolstack-client/.env.development.local
+/foolstack-client/.env.test.local
+/foolstack-client/.env.production.local
+
+/foolstack-client/npm-debug.log*
+/foolstack-client/yarn-debug.log*
+/foolstack-client/yarn-error.log*
