@@ -9,6 +9,8 @@
     background-color: rgba(243, 243, 243, 1);
     display: flex;
     padding: 10px;
+    position: fixed;
+    width: 100%;
 }
 
 ul li {
