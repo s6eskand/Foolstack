@@ -1,0 +1,40 @@
+
+.header-title {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.header-title-content {
+    margin-top: 100px;
+    padding-right: 100px;
+    flex: 1;
+}
+
+.header-logo {
+    max-width: 150px;
+    min-width: 150px;
+    height: auto;
+}
+
+.header-title-text {
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.header-title-image {
+    flex: 1;
+}
+
+.header-girl-img {
+    max-width: 500px;
+    min-width: 500px;
+    height: auto;
+}
+
+@media screen and (max-width: 760px) {
+    .header-girl-img {
+        max-width: 300px;
+        min-width: 300px;
+        height: auto;
+    }
+}

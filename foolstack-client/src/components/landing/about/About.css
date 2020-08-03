@@ -1,0 +1,32 @@
+
+.about-title {
+    display: flex;
+    flex-wrap: wrap-reverse;
+}
+
+.about-title-image {
+    flex: 1;
+}
+
+.about-boy-server-img {
+    max-width: 500px;
+    min-width: 500px;
+    height: auto;
+}
+
+.about-title-content {
+    flex: 1;
+    margin-top: 100px;
+}
+
+@media screen and (max-width: 760px) {
+    .about-boy-server-img {
+        max-width: 300px;
+        min-width: 300px;
+        height: auto;
+    }
+
+    .about-title-content {
+        margin-top: 50px;
+    }
+}
