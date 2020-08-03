@@ -1,0 +1,102 @@
+
+.logo {
+    width: auto;
+    height: 50px;
+    margin-left: 20px;
+}
+
+.nav {
+    background-color: rgba(243, 243, 243, 1);
+    display: flex;
+    padding: 10px;
+}
+
+ul li {
+    display: inline;
+    text-align: center;
+}
+
+a {
+    display: inline-block;
+    width: 100px;
+    padding: 1rem 0;
+    align-items: center;
+    text-align: center;
+    margin: 0;
+    text-decoration: none;
+    color: #333;
+}
+
+.nav-link-1:hover ~ hr {
+    margin-left: 0;
+    width: 100px;
+}
+
+.nav-link-2:hover ~ hr {
+    margin-left: 100px;
+    width: 100px;
+}
+
+.nav-link-3:hover ~ hr {
+    margin-left: 200px;
+    width: 100px;
+}
+
+hr {
+    height: .25rem;
+    width: 0;
+    margin: 0;
+    background: tomato;
+    border: none;
+    transition: 0.3s ease-in-out;
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    margin-right: 50px;
+}
+
+.login-btn {
+    margin-right: 20px;
+    background: inherit;
+    font-weight: bold;
+    border: none;
+    outline: none;
+}
+
+.register-btn {
+    background: #4EB6C4;
+    color: #fff;
+    border: none;
+    font-weight: bold;
+    outline: none;
+}
+
+.register-btn:hover {
+    background: #FC7F64;
+}
+
+button {
+    border-radius: 5px;
+    width: 100px;
+    height: 40px;
+}
+
+@media screen and (max-width: 900px){
+    .nav-link-1 {
+        display: none;
+    }
+
+    .nav-link-2 {
+        display: none;
+    }
+
+    .nav-link-3 {
+        display: none;
+    }
+
+    .login-btn {
+        display: none;
+    }
+}
