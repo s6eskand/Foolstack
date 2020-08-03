@@ -1,19 +1,19 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Foolstack",
+  "name": "Integrating Development and Design all in one",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "../src/media/images/logo-short.png",
       "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "type": "image/png"
     },
     {
-      "src": "logo192.png",
+      "src": "../src/media/images/logo-short.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "logo512.png",
+      "src": "../src/media/images/logo-short.png",
       "type": "image/png",
       "sizes": "512x512"
     }
