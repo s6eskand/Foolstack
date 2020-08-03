@@ -9,6 +9,7 @@ import {
     DialogActions,
     Button
 } from "@material-ui/core";
+import {Alert} from "@material-ui/lab";
 
 // constants
 import {
@@ -29,8 +30,19 @@ class Register extends React.Component {
             email: '',
             username: '',
             password: '',
+            password2: '',
             firstname: '',
-            lastname: ''
+            lastname: '',
+            submitError: false,
+            errors: {
+                email: false,
+                username: false,
+                password: false,
+                password2: false,
+                firstname: false,
+                lastname: false
+            },
+            submitMessage: ''
         }
     }
 
@@ -41,6 +53,56 @@ class Register extends React.Component {
     }
 
     handleLogin = (e) => {
+        e.preventDefault();
+
+        const state = [...Object.keys(this.state)]
+        let count = 0;
+        let fields = {
+            email: false,
+            username: false,
+            password: false,
+            password2: false,
+            firstname: false,
+            lastname: false
+        }
+        let error = this.state.error
+
+        state.map(val => {
+            if (val !== "submitError" && val !== "submitMessage" && val !== "errors") {
+                if (!(this.state[val].length > 0)) {
+                    error = true;
+                    fields[val] = true
+                } else {
+                    count++;
+                }
+            }
+        })
+
+        error = count !== 6
+
+        if (error) {
+            this.setState({
+                submitError: true,
+                errors: fields,
+                submitMessage: 'Please fill out required fields.'
+            })
+        }
+
+        if (this.state.password !== this.state.password2) {
+            error = true;
+            this.setState({
+                submitError: true,
+                submitMessage: "Your passwords do not match!"
+            })
+        }
+
+        if (!error) {
+            this.setState({
+                submitError: false,
+                submitMessage: ''
+            })
+            console.log('yes')
+        }
     }
 
     render() {
@@ -54,6 +116,7 @@ class Register extends React.Component {
                     <DialogContentText>{REGISTER_DESCRIPTION}</DialogContentText>
                     <div style={{display: 'flex', flexDirection: 'column'}}>
                         <TextField
+                            error={this.state.errors.firstname}
                             autoFocus
                             margin="dense"
                             name="firstname"
@@ -61,32 +124,40 @@ class Register extends React.Component {
                             value={this.state.firstname}
                             onChange={this.handleChange}
                             variant="outlined"
+                            required
                         />
                         <TextField
+                            error={this.state.errors.lastname}
                             margin="dense"
                             name="lastname"
                             label="Last Name"
                             value={this.state.lastname}
                             onChange={this.handleChange}
                             variant="outlined"
+                            required
                         />
                         <TextField
+                            error={this.state.errors.email}
                             margin="dense"
                             name="email"
                             label="Email"
                             value={this.state.email}
                             onChange={this.handleChange}
                             variant="outlined"
+                            required
                         />
                         <TextField
+                            error={this.state.errors.username}
                             margin="dense"
                             name="username"
                             label="Username"
                             value={this.state.username}
                             onChange={this.handleChange}
                             variant="outlined"
+                            required
                         />
                         <TextField
+                            error={this.state.errors.password}
                             margin="dense"
                             name="password"
                             label="Password"
@@ -94,8 +165,21 @@ class Register extends React.Component {
                             value={this.state.password}
                             onChange={this.handleChange}
                             variant="outlined"
+                            required
+                        />
+                        <TextField
+                            error={this.state.errors.password2}
+                            margin="dense"
+                            name="password2"
+                            label="Password (again)"
+                            type="password"
+                            value={this.state.password2}
+                            onChange={this.handleChange}
+                            variant="outlined"
+                            required
                         />
                     </div>
+                    {this.state.submitError ? <Alert severity={"error"}>{this.state.submitMessage}</Alert> : null}
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={(e) => this.props.handleTabChange(e, 0)} fullWidth>
