@@ -19,7 +19,7 @@ ul li {
 a {
     display: inline-block;
     width: 100px;
-    padding: .75rem 0;
+    padding: 1rem 0;
     align-items: center;
     text-align: center;
     margin: 0;
@@ -59,18 +59,22 @@ hr {
 
 .login-btn {
     margin-right: 20px;
-    border: none;
     background: inherit;
+    font-weight: bold;
+    border: none;
+    outline: none;
 }
 
 .register-btn {
-    background: #1cbcd1;
+    background: #4EB6C4;
     color: #fff;
     border: none;
+    font-weight: bold;
+    outline: none;
 }
 
 .register-btn:hover {
-    background: tomato;
+    background: #FC7F64;
 }
 
 button {
@@ -89,6 +93,10 @@ button {
     }
 
     .nav-link-3 {
+        display: none;
+    }
+
+    .login-btn {
         display: none;
     }
 }
