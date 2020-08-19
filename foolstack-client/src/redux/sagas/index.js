@@ -1,5 +1,10 @@
 
-const sagas = [];
+// sagas
+import authSagas from "./auth";
+
+const sagas = [
+    authSagas,
+];
 
 const registerSagas = (middleware) => {
     sagas.map((saga) => {
