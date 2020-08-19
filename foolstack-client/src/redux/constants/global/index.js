@@ -1,0 +1,4 @@
+export const REQUEST_STATUS = 'REQUEST_STATUS';
+export const SET_LOADING_STATUS = 'SET_LOADING_STATUS';
+export const SET_OPEN = 'SET_OPEN';
+export const CLEAR_STATUS = 'CLEAR_STATUS';

@@ -9,7 +9,7 @@ grails.plugin.springsecurity.rest.token.generation.useSecureRandom = true
 grails.plugin.springsecurity.rest.login.active = true
 grails.plugin.springsecurity.rest.login.useJsonCredentials = true // can use json a request parameter
 grails.plugin.springsecurity.rest.login.usernamePropertyName = 'username' // field of username parameter
-grails.plugin.springsecurity.rest.login.passwordPropertyName = 'password' // field of pasword parameter
+grails.plugin.springsecurity.rest.login.passwordPropertyName = 'password' // field of password parameter
 grails.plugin.springsecurity.rest.login.useRequestParamsCredential = true
 
 grails.plugin.springsecurity.rest.token.storage.gorm.tokenDomainClassName ='foolstack.server.auth.AuthToken' // token class name with package

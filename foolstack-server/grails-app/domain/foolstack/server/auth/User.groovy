@@ -15,13 +15,22 @@ class User implements Serializable {
     ObjectId id
     String username
     String password
+    String email
+    String firstname
+    String lastname
+    String accountType
+    int projects
     boolean enabled = true
     boolean accountExpired
     boolean accountLocked
     boolean passwordExpired
+    Set<Role> authorities
+
+    static embedded = ['authorities']
 
     Set<Role> getAuthorities() {
-        (UserRole.findAllByUser(this) as List<UserRole>)*.role as Set<Role>
+//        (UserRole.findAllByUser(this) as List<UserRole>)*.role as Set<Role>
+        this.authorities
     }
 
     static constraints = {

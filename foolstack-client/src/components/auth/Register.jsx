@@ -16,11 +16,15 @@ import {
     REGISTER_TITLE,
     REGISTER_DESCRIPTION,
     CANCEL,
-    HAS_ACCOUNT
+    HAS_ACCOUNT, LOGIN_SUCCESS, LOGIN_ERROR
 } from "./constants";
 
 // images
 import logo from '../../media/images/logo-short-blue-resize.png';
+import {ERROR, SUCCESS} from "../global/constants";
+import AlertPopup from "../global/alerts/AlertPopup";
+
+import axios from 'axios'
 
 class Register extends React.Component {
 
@@ -52,7 +56,7 @@ class Register extends React.Component {
         })
     }
 
-    handleLogin = (e) => {
+    handleRegister = async (e) => {
         e.preventDefault();
 
         const state = [...Object.keys(this.state)]
@@ -101,13 +105,29 @@ class Register extends React.Component {
                 submitError: false,
                 submitMessage: ''
             })
-            console.log('yes')
+
+            const registerInfo = {
+                username: this.state.username,
+                password: this.state.password,
+                email: this.state.email,
+                firstname: this.state.firstname,
+                lastname: this.state.lastname,
+                authority: "ROLE_USER"
+            }
+
+            this.props.authRegister(registerInfo, this.props.history)
         }
     }
 
     render() {
         return (
             <div hidden={this.props.value !== this.props.index}>
+                <AlertPopup
+                    open={this.props.open}
+                    message={this.props.status.success ? LOGIN_SUCCESS : LOGIN_ERROR}
+                    severity={this.props.status.success ? SUCCESS : ERROR}
+                    handleClose={this.props.handleAlertClose}
+                />
                 <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '20px'}}>
                     <img style={{width: '100px'}} src={logo} alt="foolstack blue logo"/>
                 </div>
@@ -190,7 +210,7 @@ class Register extends React.Component {
                     <Button onClick={this.props.handleClose} color="secondary">
                         {CANCEL}
                     </Button>
-                    <Button style={{backgroundColor: '#4EB6C4', color: '#FFF'}} onClick={this.handleLogin} variant="contained">
+                    <Button style={{backgroundColor: '#4EB6C4', color: '#FFF'}} onClick={this.handleRegister} variant="contained">
                         {REGISTER_TITLE}
                     </Button>
                 </DialogActions>

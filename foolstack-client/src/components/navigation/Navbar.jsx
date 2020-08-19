@@ -42,13 +42,15 @@ class Navbar extends React.Component {
     }
 
     render() {
+        console.log(this.state)
         return (
             <>
                 <AuthDialog
-                    open={this.state.open}
+                    dialogOpen={this.state.open}
                     handleTabChange={this.handleTabChange}
                     handleClose={this.handleClose}
                     value={this.state.value}
+                    fullScreen={this.props.fullScreen}
                 />
                 <nav className="nav">
                     <img src={logo} className="logo" alt="foolstack-logo"/>
