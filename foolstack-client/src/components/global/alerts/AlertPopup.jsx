@@ -8,10 +8,10 @@ import {
     Snackbar
 } from "@material-ui/core";
 
-function Alert(props) {
+function AlertPopup(props) {
 
     const handleDialogClose = () => {
-        props.handleClose()
+        props.handleClose(false)
     }
 
     return (
@@ -28,4 +28,4 @@ function Alert(props) {
     );
 }
 
-export default Alert
+export default AlertPopup;

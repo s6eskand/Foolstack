@@ -16,7 +16,9 @@ import {
     LOGIN_DESCRIPTION,
     CANCEL,
     CREATE_ACCOUNT,
-    PASSWORD_RESET
+    PASSWORD_RESET,
+    LOGIN_SUCCESS,
+    LOGIN_ERROR
 } from "./constants";
 
 // styling
@@ -24,6 +26,8 @@ import './Dialog.css';
 
 // images
 import logo from '../../media/images/logo-short-blue-resize.png';
+import {ERROR, SUCCESS} from "../global/constants";
+import AlertPopup from "../global/alerts/AlertPopup";
 
 class Login extends React.Component {
 
@@ -42,11 +46,24 @@ class Login extends React.Component {
     }
 
     handleLogin = (e) => {
+        e.preventDefault();
+        const loginData = {
+            username: this.state.username,
+            password: this.state.password
+        }
+        this.props.authLogin(loginData, this.props.history)
+
     }
 
     render() {
         return (
             <div className="dialog-container" hidden={this.props.value !== this.props.index}>
+                <AlertPopup
+                    open={this.props.open}
+                    message={this.props.status.success ? LOGIN_SUCCESS : LOGIN_ERROR}
+                    severity={this.props.status.success ? SUCCESS : ERROR}
+                    handleClose={this.props.handleAlertClose}
+                />
                 <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '20px'}}>
                     <img style={{width: '100px'}} src={logo} alt="foolstack blue logo"/>
                 </div>
