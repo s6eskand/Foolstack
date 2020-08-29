@@ -14,27 +14,27 @@ class Navbar extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            open: false,
+            openDialog: false,
             value: 0
         }
     }
 
     handleLoginOpen = () => {
         this.setState({
-            open: true,
+            openDialog: true,
             value: 0
         })
     }
 
     handleRegisterOpen = () => {
         this.setState({
-            open: true,
+            openDialog: true,
             value: 1
         })
     }
 
     handleClose = () => {
-        this.setState({open: false})
+        this.setState({openDialog: false})
     }
 
     handleTabChange = (e, newValue) => {
@@ -42,11 +42,10 @@ class Navbar extends React.Component {
     }
 
     render() {
-        console.log(this.state)
         return (
             <>
                 <AuthDialog
-                    dialogOpen={this.state.open}
+                    dialogOpen={this.state.openDialog}
                     handleTabChange={this.handleTabChange}
                     handleClose={this.handleClose}
                     value={this.state.value}

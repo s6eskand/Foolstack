@@ -12,6 +12,7 @@ import {
 import Login from "./Login";
 import Register from "./Register";
 import AlertPopup from "../global/alerts/AlertPopup";
+import LoadingFullscreen from "../global/LoadingFullscreen";
 
 // constants
 import {
@@ -47,9 +48,8 @@ class AuthDialog extends React.Component {
     }
 
     render() {
-        console.log(this.props)
         return (
-            <Dialog fullScreen={this.props.fullScreen} open={this.props.dialogOpen || this.props.status.success} onClose={this.props.handleClose}>
+            <Dialog fullScreen={this.props.fullScreen} open={this.props.dialogOpen} onClose={this.props.handleClose}>
                 <AppBar position="static" color="default">
                     <Tabs
                         value={this.props.value}
@@ -83,6 +83,9 @@ class AuthDialog extends React.Component {
                     status={this.props.status}
                     loading={this.props.loading}
                     handleAlertClose={this.props.setOpen}
+                />
+                <LoadingFullscreen
+                    loading={this.props.loading}
                 />
             </Dialog>
         );

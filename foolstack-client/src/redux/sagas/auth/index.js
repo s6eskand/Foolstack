@@ -11,6 +11,9 @@ import {
     AUTH_REGISTER,
     AUTH_LOGOUT
 } from "../../constants/auth";
+import {
+    SERVER_ENDPOINTS
+} from "../../../components/global/constants";
 
 // actions
 import {
@@ -33,19 +36,25 @@ function* postRequest(endpoint, data) {
         .then(response => response)
 }
 
+function* noAuthRequest(endpoint, data) {
+    return yield axios.post(endpoint, data)
+        .then(response => response)
+}
+
 function* authLogin(action) {
     yield call(clearStatus);
     yield put(setLoadingStatus(true));
-    const loginResponse = yield call(() => postRequest('http://localhost:8080/api/login', action.loginData));
+    const loginResponse = yield call(() => noAuthRequest(SERVER_ENDPOINTS.AUTH_LOGIN, action.loginData));
     let userResponse;
     if (loginResponse.status === 200) {
         localStorage.setItem('token', loginResponse.data.access_token);
         yield put(storeToken(loginResponse.data.access_token, true));
         const request = {username: loginResponse.data.username}
-        userResponse = yield call(() => postRequest('http://localhost:8080/account/getUser', request))
+        userResponse = yield call(() => postRequest(SERVER_ENDPOINTS.GET_USER, request))
         if (userResponse.status === 200) {
             yield put(storeUser(userResponse.data))
         }
+        yield action.close();
     }
     const status = {
         status: userResponse.status,
@@ -60,15 +69,17 @@ function* authLogin(action) {
 function* authRegister(action) {
     yield call(clearStatus);
     yield put(setLoadingStatus(true));
-    const registerResponse = yield call(() => postRequest('http://localhost:8080/register/save', action.registerInfo))
+    const registerResponse = yield call(() => noAuthRequest(SERVER_ENDPOINTS.AUTH_REGISTER, action.registerInfo))
     if (registerResponse.status === 200) {
+        // Grails does not log you in after registration, so simulate userAction
+        // action to log in after registration
         const userAction = {
             type: AUTH_LOGIN,
             loginData: {
                 username: action.registerInfo.username,
                 password: action.registerInfo.password,
             },
-            history: action.history
+            close: action.close
         }
         yield call(() => authLogin(userAction))
     } else {
@@ -83,7 +94,15 @@ function* authRegister(action) {
     }
 }
 
+function* authLogout(action) {
+    const response = yield call(() => postRequest(SERVER_ENDPOINTS.AUTH_LOGOUT, {}));
+    yield put(storeUser({}));
+    yield put(storeToken(null, false));
+    yield localStorage.clear();
+}
+
 export default function* authSagas() {
     yield takeLatest(AUTH_LOGIN, authLogin);
     yield takeLatest(AUTH_REGISTER, authRegister);
+    yield takeLatest(AUTH_LOGOUT, authLogout);
 }

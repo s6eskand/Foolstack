@@ -12,7 +12,6 @@ class RegisterController {
     @Secured('permitAll')
     def save() {
 
-//        respond User.findByPassword('foolstack')
         response.setContentType('application/json')
         response << registerService.register(request.JSON)
 

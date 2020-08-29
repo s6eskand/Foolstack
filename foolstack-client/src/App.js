@@ -8,6 +8,7 @@ import {
 } from "./redux/store";
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
+import { BrowserRouter } from "react-router-dom";
 
 // components
 import Homepage from "./base/landing/Homepage";
@@ -17,7 +18,9 @@ function App() {
     <div>
         <Provider store={store}>
             <PersistGate persistor={persistor} loading={null}>
-                <Homepage />
+                <BrowserRouter>
+                    <Homepage />
+                </BrowserRouter>
             </PersistGate>
         </Provider>
     </div>

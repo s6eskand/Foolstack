@@ -1,5 +1,6 @@
 package foolstack.server.auth
 
+import foolstack.server.project.Project
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
 import grails.compiler.GrailsCompileStatic
@@ -19,14 +20,14 @@ class User implements Serializable {
     String firstname
     String lastname
     String accountType
-    int projects
+    Set<Project> projects
     boolean enabled = true
     boolean accountExpired
     boolean accountLocked
     boolean passwordExpired
     Set<Role> authorities
 
-    static embedded = ['authorities']
+    static embedded = ['authorities', 'projects']
 
     Set<Role> getAuthorities() {
 //        (UserRole.findAllByUser(this) as List<UserRole>)*.role as Set<Role>
