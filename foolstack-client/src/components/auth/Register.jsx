@@ -30,6 +30,7 @@ class Register extends React.Component {
 
     constructor(props) {
         super(props);
+        this.whitelist = ['errors', 'submitmessage', 'submitError']
         this.state = {
             email: '',
             username: '',
@@ -46,7 +47,7 @@ class Register extends React.Component {
                 firstname: false,
                 lastname: false
             },
-            submitMessage: ''
+            submitMessage: '',
         }
     }
 
@@ -60,29 +61,22 @@ class Register extends React.Component {
         e.preventDefault();
 
         const state = [...Object.keys(this.state)]
-        let count = 0;
         let fields = {
-            email: false,
             username: false,
+            email: false,
             password: false,
             password2: false,
             firstname: false,
             lastname: false
         }
-        let error = this.state.error
+        let error = false
 
-        state.map(val => {
-            if (val !== "submitError" && val !== "submitMessage" && val !== "errors") {
-                if (!(this.state[val].length > 0)) {
-                    error = true;
-                    fields[val] = true
-                } else {
-                    count++;
-                }
+        state.map(key => {
+            if (!this.whitelist.includes(key) && this.state[key].length === 0) {
+                error = true;
+                fields[key] = true
             }
         })
-
-        error = count !== 6
 
         if (error) {
             this.setState({
@@ -94,8 +88,11 @@ class Register extends React.Component {
 
         if (this.state.password !== this.state.password2) {
             error = true;
+            fields.password = true
+            fields.password2 = true
             this.setState({
                 submitError: true,
+                errors: fields,
                 submitMessage: "Your passwords do not match!"
             })
         }
@@ -115,7 +112,7 @@ class Register extends React.Component {
                 authority: "ROLE_USER"
             }
 
-            this.props.authRegister(registerInfo, this.props.history)
+            this.props.authRegister(registerInfo, this.props.handleClose)
         }
     }
 

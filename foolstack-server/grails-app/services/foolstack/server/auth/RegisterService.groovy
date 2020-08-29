@@ -1,5 +1,6 @@
 package foolstack.server.auth
 
+import foolstack.server.project.Project
 import grails.gorm.transactions.Transactional
 
 @Transactional
@@ -16,7 +17,7 @@ class RegisterService {
                 password: body.password,
                 authorities: roles,
                 email: body.email,
-                projects: 0,
+                projects: new HashSet<Project>(),
                 accountType: 'standard'
         ).save()
         UserRole.create(user, role, true).save()

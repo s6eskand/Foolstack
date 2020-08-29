@@ -8,4 +8,9 @@ class AccountService {
     def getUser(Object body) {
         return User.findByUsername(body.username)
     }
+
+    def userSearch(String username) {
+        return User.findByUsername(username)
+    }
+
 }

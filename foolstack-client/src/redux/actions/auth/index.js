@@ -6,20 +6,20 @@ import {
     STORE_USER,
 } from "../../constants/auth";
 
-export const authLogin = (loginData, history) => ({
+export const authLogin = (loginData, close) => ({
     type: AUTH_LOGIN,
     loginData,
-    history,
+    close,
 });
 
 export const authLogout = () => ({
     type: AUTH_LOGOUT
 });
 
-export const authRegister = (registerInfo, history) => ({
+export const authRegister = (registerInfo, close) => ({
     type: AUTH_REGISTER,
     registerInfo,
-    history,
+    close,
 });
 
 export const storeToken = (token, isAuthenticated) => ({

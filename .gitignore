@@ -1,4 +1,9 @@
 /.idea
+/deployment
+azure_credentials.txt
+confluence_request.txt
+
+/foolstack-server/grails-app/assets
 
 # dependencies
 /foolstack-client/node_modules

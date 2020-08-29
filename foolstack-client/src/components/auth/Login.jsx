@@ -51,7 +51,7 @@ class Login extends React.Component {
             username: this.state.username,
             password: this.state.password
         }
-        this.props.authLogin(loginData, this.props.history)
+        this.props.authLogin(loginData, this.props.handleClose)
 
     }
 
