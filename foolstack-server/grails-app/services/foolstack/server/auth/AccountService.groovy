@@ -5,14 +5,21 @@ import foolstack.server.Constants
 
 import javax.imageio.ImageIO
 import java.awt.Image
-import java.awt.image.BufferedImage
-import java.util.Base64
 
 @Transactional
 class AccountService {
 
     def getUser(Object body) {
         return User.findByUsername(body.username)
+    }
+
+    def listUsers(String searchValue) {
+        def criteria = User.createCriteria()
+        def query = criteria.list {
+            like("username", "${searchValue}%")
+        }
+
+        return query
     }
 
     def editProfile(Object body) {
