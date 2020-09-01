@@ -33,7 +33,7 @@ function UserProfile(props) {
 
     const filterByName = (projects) => {
         if (state.searchValue.length > 0) {
-            return [...projects.filter(project => project.title.includes(state.searchValue))];
+            return [...projects.filter(project => project.projectTitle.toLowerCase().includes(state.searchValue.toLowerCase()))];
         } else {
             return projects
         }
@@ -62,7 +62,7 @@ function UserProfile(props) {
                             placeholder="Search projects by name..."
                         />
                     </div>
-                    {props.user.projects.length > 0 ?
+                    {props.user.projects.length > 0 && filterByName(props.user.projects).length > 0 ?
                         <List component="div">
                             {filterByName(props.user.projects).map(project => (
                                 <ProjectListItem

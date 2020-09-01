@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 
 // custom components
 import EditProfile from "../userProfile/EditProfile";
+import CreateProjectDialog from "../projects/create/CreateProjectDialog";
 
 // images
 import logo from '../../media/images/logo-name-resize.png';
@@ -110,6 +111,7 @@ function NavbarAuth(props) {
     const history = useHistory();
     const isMobile = useMediaQuery('(max-width:680px)');
     const classes = useStyles();
+    const [isCreateOpen, setIsCreateOpen] = useState(false);
     const [isEditOpen, setIsEditOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null)
     const [searchValue, setSearchValue] = useState('');
@@ -153,6 +155,14 @@ function NavbarAuth(props) {
         redirect('/')
     }
 
+    const handleCreateOpen = () => {
+        setIsCreateOpen(true)
+    }
+
+    const handleCreateClose = () => {
+        setIsCreateOpen(false)
+    }
+
     const displayProfileMenu = (
         <Menu
             anchorEl={anchorEl}
@@ -167,13 +177,14 @@ function NavbarAuth(props) {
             }}>
                 Signed in as&nbsp;<b>{props.user.username}</b>
             </MenuItem>
+            <MenuItem onClick={handleYourProfileSelect}>Your Profile</MenuItem>
             <MenuItem
-                onClick={handleYourProfileSelect}
+                onClick={handleCreateOpen}
                 style={{
                     borderBottom: '1px solid #CCC'
                 }}
             >
-                Your Profile
+                New Project
             </MenuItem>
             <MenuItem onClick={handleOpenEdit}>Edit Profile</MenuItem>
             <MenuItem onClick={handleLogout}>Logout</MenuItem>
@@ -182,6 +193,10 @@ function NavbarAuth(props) {
 
     return (
         <>
+        <CreateProjectDialog
+            open={isCreateOpen}
+            handleClose={handleCreateClose}
+        />
         <EditProfile
             editAccount={props.editAccount}
             handleClose={handleCloseEdit}

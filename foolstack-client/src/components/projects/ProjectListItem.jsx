@@ -17,6 +17,9 @@ import {
     Lock,
 } from "@material-ui/icons";
 
+// styling
+import styles from './ProjectListItem.module.css'
+
 function ProjectListItem(props) {
 
     const setColor = (lang) => {
@@ -24,7 +27,7 @@ function ProjectListItem(props) {
     }
 
     return (
-        <div style={{border: '2px solid #CCC', borderRadius: '4px'}}>
+        <div style={{border: '2px solid #CCC', borderRadius: '4px', marginBottom: '25px'}}>
             <ListItem>
                 <ListItemIcon>
                     {props.project.isPrivate ?
@@ -32,12 +35,15 @@ function ProjectListItem(props) {
                     }
                 </ListItemIcon>
                 <ListItemText
-                    primary={props.project.title}
-                    secondary={props.project.description}
+                    className={styles.projectText}
+                    primary={props.project.projectTitle}
+                    secondary={props.project.projectDescription}
                 />
                 <ListItemSecondaryAction>
                     <ListItemText
-                        style={{color: `${setColor(props.project.mainLanguage)}`}}
+                        style={{
+                            color: `${setColor(props.project.mainLanguage)}`,
+                        }}
                         primary={props.project.mainLanguage}
                     />
                 </ListItemSecondaryAction>

@@ -12,6 +12,8 @@ export const SERVER_ENDPOINTS = {
     AUTH_LOGOUT: `${BASE_URL}/api/logout`,
     AUTH_VALIDATE: `${BASE_URL}/api/validate`,
     GET_USER: `${BASE_URL}/account/getUser`,
-    SEARCH_USERS: `${BASE_URL}/project/listUsers`,
+    SEARCH_USERS: `${BASE_URL}/account/search`,
     EDIT_PROFILE: `${BASE_URL}/account/edit`,
+    GET_GITHUB_REPOS: `${BASE_URL}/project/github?username=`,
+    CREATE_PROJECT: `${BASE_URL}/project/create`
 }
