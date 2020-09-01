@@ -22,7 +22,7 @@ function getDisplayName(WrappedComponent) {
 /**
  * WithShipment is a React Higher Order Component (HOC) that provides
  * dispatcher and connector for redux.
- * All parameter that can be passed are optional and will depend on the need of
+ * All parameters that can be passed are optional and will depend on the need of
  * each component. The accepted parameters are described below.
  *
  * export default withShipment({

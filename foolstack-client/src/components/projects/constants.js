@@ -1,0 +1,1 @@
+export const EMPTY_PROJECTS_TITLE = "Whoops! Looks like this project section is empty!";

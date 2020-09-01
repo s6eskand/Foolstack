@@ -7,6 +7,7 @@ class AccountController {
     static allowedMethods = [
             getUser: 'POST',
             edit: 'POST',
+            search: 'POST'
     ]
     static responseFormats = ['json']
 
@@ -21,6 +22,11 @@ class AccountController {
     def edit() {
         response.setContentType('application/json')
         response << accountService.editProfile(request.JSON)
+    }
+
+    @Secured(['ROLE_USER'])
+    def search() {
+        respond accountService.listUsers(request.JSON.searchValue)
     }
 
 }

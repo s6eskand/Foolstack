@@ -1,0 +1,45 @@
+.root {
+    margin-top: 100px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.projectContent {
+    margin-left: 17%;
+}
+
+.projectActions {
+    width: 600px;
+    max-width: 600px;
+    margin-bottom: 50px;
+    display: flex;
+}
+
+.projectList {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: auto;
+    align-items: center;
+}
+
+@media screen and (max-width: 760px) {
+    .root {
+        flex-direction: column;
+    }
+
+    .projectList {
+        margin: 40px 0;
+    }
+
+    .projectContent {
+        margin: 0;
+    }
+
+    .projectActions {
+        margin-top: 30px;
+        margin-bottom: 10px;
+        width: auto;
+    }
+}

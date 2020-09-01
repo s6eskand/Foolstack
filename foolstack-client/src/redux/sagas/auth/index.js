@@ -49,12 +49,13 @@ function* authLogin(action) {
         let userResponse;
         if (loginResponse.status === 200) {
             localStorage.setItem('token', loginResponse.data.access_token);
-            yield put(storeToken(loginResponse.data.access_token, true));
+            yield put(storeToken(loginResponse.data.access_token, false));
             const request = {username: loginResponse.data.username}
             userResponse = yield call(() => postRequest(SERVER_ENDPOINTS.GET_USER, request))
             if (userResponse.status === 200) {
                 yield put(storeUser(userResponse.data))
             }
+            yield put(setIsAuthenticated(true))
             yield action.close();
         }
         const status = {
@@ -118,9 +119,9 @@ function* authRegister(action) {
 
 function* authLogout(action) {
     const response = yield call(() => postRequest(SERVER_ENDPOINTS.AUTH_LOGOUT, {}));
-    yield put(storeUser({}));
     yield put(storeToken(null, false));
     yield localStorage.clear();
+    yield put(storeUser({}));
 }
 
 function* validateUser() {

@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
 
 // custom components
-import EditProfile from "../dashboard/userProfile/EditProfile";
+import EditProfile from "../userProfile/EditProfile";
+import CreateProjectDialog from "../projects/create/CreateProjectDialog";
 
 // images
 import logo from '../../media/images/logo-name-resize.png';
@@ -31,6 +32,9 @@ import {
     Mail,
 } from "@material-ui/icons";
 
+// routing
+import { useHistory } from 'react-router-dom';
+
 // styling
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -39,6 +43,7 @@ const useStyles = makeStyles((theme) => ({
         boxShadow: 'none',
     },
     img: {
+        cursor: 'pointer',
         marginTop: 'auto',
         marginBottom: 'auto',
         width: '253.68px',
@@ -103,12 +108,18 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 function NavbarAuth(props) {
+    const history = useHistory();
     const isMobile = useMediaQuery('(max-width:680px)');
     const classes = useStyles();
+    const [isCreateOpen, setIsCreateOpen] = useState(false);
     const [isEditOpen, setIsEditOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null)
     const [searchValue, setSearchValue] = useState('');
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false)
+
+    const redirect = (path) => {
+        history.push(path)
+    }
 
     const handleSearchChange = (e) => {
         const searchVal = e.target.value
@@ -139,6 +150,19 @@ function NavbarAuth(props) {
         setIsEditOpen(false);
     }
 
+    const handleYourProfileSelect = () => {
+        handleProfileMenuClose();
+        redirect('/')
+    }
+
+    const handleCreateOpen = () => {
+        setIsCreateOpen(true)
+    }
+
+    const handleCreateClose = () => {
+        setIsCreateOpen(false)
+    }
+
     const displayProfileMenu = (
         <Menu
             anchorEl={anchorEl}
@@ -153,13 +177,14 @@ function NavbarAuth(props) {
             }}>
                 Signed in as&nbsp;<b>{props.user.username}</b>
             </MenuItem>
+            <MenuItem onClick={handleYourProfileSelect}>Your Profile</MenuItem>
             <MenuItem
-                onClick={handleProfileMenuClose}
+                onClick={handleCreateOpen}
                 style={{
                     borderBottom: '1px solid #CCC'
                 }}
             >
-                Your Profile
+                New Project
             </MenuItem>
             <MenuItem onClick={handleOpenEdit}>Edit Profile</MenuItem>
             <MenuItem onClick={handleLogout}>Logout</MenuItem>
@@ -168,6 +193,10 @@ function NavbarAuth(props) {
 
     return (
         <>
+        <CreateProjectDialog
+            open={isCreateOpen}
+            handleClose={handleCreateClose}
+        />
         <EditProfile
             editAccount={props.editAccount}
             handleClose={handleCloseEdit}
@@ -179,7 +208,7 @@ function NavbarAuth(props) {
         >
             <Toolbar>
                 {isMobile ? null :
-                    <img src={logo} className={classes.img} alt=""/>
+                    <img src={logo} className={classes.img} alt="" onClick={() => redirect('/')}/>
                 }
                 <div className={isMobile ? classes.searchMobile : classes.search}>
                     <div className={classes.searchIcon}>

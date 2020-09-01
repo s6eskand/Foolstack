@@ -3,11 +3,23 @@ package foolstack.server.auth
 import grails.gorm.transactions.Transactional
 import foolstack.server.Constants
 
+import javax.imageio.ImageIO
+import java.awt.Image
+
 @Transactional
 class AccountService {
 
     def getUser(Object body) {
         return User.findByUsername(body.username)
+    }
+
+    def listUsers(String searchValue) {
+        def criteria = User.createCriteria()
+        def query = criteria.list {
+            like("username", "${searchValue}%")
+        }
+
+        return query
     }
 
     def editProfile(Object body) {
@@ -32,6 +44,16 @@ class AccountService {
                 return '{"success": false, "message": "No such github account exists"}'
             }
         }
+
+        // check image size to ensure compatibility
+        String base64String = profilePicture.tokenize(',')[1]
+        byte[] bytes = Base64.decoder.decode(base64String)
+        InputStream inputStream = new ByteArrayInputStream(bytes)
+        Image image = ImageIO.read(inputStream)
+        if (image.height > 260 || image.width > 260) {
+            return '{"success": false, "message": "Image dimensions of '+image.width+' by '+image.height+' exceed maximum of 260"}'
+        }
+
 
         // since github username exists and is verified, save info
         User.withTransaction {

@@ -11,6 +11,9 @@ import {
     TextField,
     useMediaQuery
 } from "@material-ui/core";
+import {
+    Alert
+} from "@material-ui/lab";
 
 // material icons
 import {
@@ -28,9 +31,9 @@ import {
 
 // styling
 import styles from './EditProfile.module.css';
-import LoadingFullscreen from "../../global/LoadingFullscreen";
-import AlertPopup from "../../global/alerts/AlertPopup";
-import {ERROR, SUCCESS} from "../../global/constants";
+import LoadingFullscreen from "../global/LoadingFullscreen";
+import AlertPopup from "../global/alerts/AlertPopup";
+import {ERROR, SUCCESS} from "../global/constants";
 
 function EditProfile(props) {
     const fullScreen = useMediaQuery('(max-width: 760px)')
@@ -92,16 +95,22 @@ function EditProfile(props) {
 
     }
 
+    const displayAlert = () => {
+        if (props.requestStatus) {
+            if (props.requestStatus.success === false) {
+                return (
+                    <Alert severity={ERROR}>{props.requestStatus.statusText}</Alert>
+                )
+            }
+        }
+
+        return null;
+    }
+
     return (
         <>
         <LoadingFullscreen
             loading={props.loading}
-        />
-        <AlertPopup
-            open={props.alertOpen}
-            handleClose={props.handleAlertClose}
-            message={props.requestStatus ? props.requestStatus.statusText : {}}
-            severity={props.requestStatus ? props.requestStatus.success ? SUCCESS : ERROR : {}}
         />
         <Dialog open={props.open} maxWidth="lg" fullScreen={fullScreen}>
             <DialogTitle>{EDIT_PROFILE_TITLE}</DialogTitle>
@@ -183,6 +192,7 @@ function EditProfile(props) {
                         {state.biography.length}
                     </span> / {maxLength}
                 </p>
+                {displayAlert()}
             </DialogContent>
             <DialogActions>
                 <Button
