@@ -30,7 +30,7 @@ class Register extends React.Component {
 
     constructor(props) {
         super(props);
-        this.whitelist = ['errors', 'submitmessage', 'submitError']
+        this.whitelist = ['errors', 'submitMessage', 'submitError']
         this.state = {
             email: '',
             username: '',
@@ -109,7 +109,6 @@ class Register extends React.Component {
                 email: this.state.email,
                 firstname: this.state.firstname,
                 lastname: this.state.lastname,
-                authority: "ROLE_USER"
             }
 
             this.props.authRegister(registerInfo, this.props.handleClose)

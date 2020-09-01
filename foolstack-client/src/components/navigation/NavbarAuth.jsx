@@ -1,7 +1,11 @@
 import React, {useEffect, useState} from 'react';
 
+// custom components
+import EditProfile from "../dashboard/userProfile/EditProfile";
+
 // images
 import logo from '../../media/images/logo-name-resize.png';
+import logoMobile from '../../media/images/logo-short-blue-resize.png';
 
 // material components
 import {
@@ -13,7 +17,10 @@ import {
     Menu,
     makeStyles,
     fade,
-    CircularProgress
+    CircularProgress,
+    Badge,
+    Divider,
+    useMediaQuery,
 } from "@material-ui/core";
 
 // material icons
@@ -21,6 +28,7 @@ import {
     Search,
     Notifications,
     AccountCircle,
+    Mail,
 } from "@material-ui/icons";
 
 // styling
@@ -53,6 +61,22 @@ const useStyles = makeStyles((theme) => ({
             width: 'auto',
         },
     },
+    searchMobile: {
+        position: 'relative',
+        border: '2px solid rgb(78, 182, 196);',
+        borderRadius: theme.shape.borderRadius,
+        backgroundColor: fade(theme.palette.common.white, 0.15),
+        '&:hover': {
+            backgroundColor: fade(theme.palette.common.white, 0.25),
+        },
+        marginRight: theme.spacing(2),
+        marginLeft: 0,
+        width: '70%',
+        [theme.breakpoints.up('sm')]: {
+            marginLeft: theme.spacing(3),
+            width: 'auto',
+        },
+    },
     searchIcon: {
         padding: theme.spacing(0, 2),
         height: '100%',
@@ -72,39 +96,92 @@ const useStyles = makeStyles((theme) => ({
             width: '20ch',
         },
     },
+    sectionDesktop: {
+        position: 'absolute',
+        right: 0,
+    },
 }))
 
 function NavbarAuth(props) {
+    const isMobile = useMediaQuery('(max-width:680px)');
     const classes = useStyles();
+    const [isEditOpen, setIsEditOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null)
     const [searchValue, setSearchValue] = useState('');
+    const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false)
 
     const handleSearchChange = (e) => {
-        const searchValue = e.target.value
-        setAnchorEl(e.currentTarget)
-        setSearchValue(searchValue)
-        props.search(searchValue)
+        const searchVal = e.target.value
+        setSearchValue(searchVal)
+        props.search(searchVal)
     }
 
-    const displaySearchResults = () => {
-        if (props.searchResults) {
-            return props.searchResults.map(result => (
-                <MenuItem value={result}>{result}</MenuItem>
-            ))
-        } else if (props.loading) {
-            return <CircularProgress />
-        } else {
-            return "No results found :("
-        }
+    const handleProfileMenuOpen = (e) => {
+        setAnchorEl(e.currentTarget);
+        setIsProfileMenuOpen(true)
     }
+
+    const handleProfileMenuClose = () => {
+        setIsProfileMenuOpen(false)
+        setAnchorEl(null)
+    }
+
+    const handleLogout = () => {
+        props.authLogout();
+        handleProfileMenuClose();
+    }
+
+    const handleOpenEdit = () => {
+        setIsEditOpen(true);
+    }
+
+    const handleCloseEdit = () => {
+        setIsEditOpen(false);
+    }
+
+    const displayProfileMenu = (
+        <Menu
+            anchorEl={anchorEl}
+            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            keepMounted
+            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+            open={isProfileMenuOpen}
+            onClose={handleProfileMenuClose}
+        >
+            <MenuItem style={{
+                borderBottom: '1px solid #CCC'
+            }}>
+                Signed in as&nbsp;<b>{props.user.username}</b>
+            </MenuItem>
+            <MenuItem
+                onClick={handleProfileMenuClose}
+                style={{
+                    borderBottom: '1px solid #CCC'
+                }}
+            >
+                Your Profile
+            </MenuItem>
+            <MenuItem onClick={handleOpenEdit}>Edit Profile</MenuItem>
+            <MenuItem onClick={handleLogout}>Logout</MenuItem>
+        </Menu>
+    )
 
     return (
+        <>
+        <EditProfile
+            editAccount={props.editAccount}
+            handleClose={handleCloseEdit}
+            open={isEditOpen}
+            user={props.user}
+        />
         <AppBar
             className={classes.root}
         >
             <Toolbar>
-                <img src={logo} className={classes.img} alt=""/>
-                <div className={classes.search}>
+                {isMobile ? null :
+                    <img src={logo} className={classes.img} alt=""/>
+                }
+                <div className={isMobile ? classes.searchMobile : classes.search}>
                     <div className={classes.searchIcon}>
                         <Search
                             style={{color: 'rgb(78, 182, 196)'}}
@@ -118,17 +195,22 @@ function NavbarAuth(props) {
                         }}
                         inputProps={{ 'aria-label': 'search' }}
                     />
-                    <Menu
-                        anchorEl={anchorEl}
-                        keepMounted
-                        open={searchValue.length > 0}
-                        onClose={() => setAnchorEl(null)}
+                </div>
+                <div className={classes.sectionDesktop}>
+                    <IconButton
+                        aria-label="account of current user"
+                        aria-haspopup="true"
+                        onClick={handleProfileMenuOpen}
                     >
-                        {displaySearchResults()}
-                    </Menu>
+                        <AccountCircle
+                            style={{color: '#4EB6C4'}}
+                        />
+                    </IconButton>
                 </div>
             </Toolbar>
         </AppBar>
+        {displayProfileMenu}
+        </>
     )
 
 }
