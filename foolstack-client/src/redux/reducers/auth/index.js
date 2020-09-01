@@ -1,6 +1,6 @@
 import {
     STORE_USER,
-    STORE_TOKEN
+    STORE_TOKEN, SET_IS_AUTHENTICATED
 } from "../../constants/auth";
 import {
     AUTH_KEY
@@ -27,6 +27,11 @@ const auth = (state = initialState, action) => {
                 ...state,
                 userInfo: action.userInfo
             }
+        case SET_IS_AUTHENTICATED:
+            return {
+                ...state,
+                isAuthenticated: action.isAuthenticated
+            }
         default:
             return state
     }
@@ -35,7 +40,7 @@ const auth = (state = initialState, action) => {
 const config = {
     key: AUTH_KEY,
     storage: storage,
-    whitelist: ['isAuthenticated', 'userInfo'],
+    whitelist: ['userInfo', 'isAuthenticated'],
 };
 
 export default persistReducer(config, auth)

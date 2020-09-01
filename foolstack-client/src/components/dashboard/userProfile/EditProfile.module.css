@@ -1,0 +1,56 @@
+.rowSpec {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.rowCol {
+    display: flex;
+    flex-direction: column;
+}
+
+.oneLineInputs {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    margin-left: 20px;
+}
+
+.inputSmall {
+    margin: 10px;
+}
+
+.imageUpload {
+    position: relative;
+    width: 260px;
+}
+
+.imageOverlay {
+    transition: .5s ease;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.imageUpload:hover .image {
+    opacity: 0.3;
+}
+
+.imageUpload:hover .imageOverlay {
+    opacity: 1;
+}
+
+.image {
+    opacity: 1;
+    width: 260px;
+    height: 260px;
+    border-radius: 50%;
+    transition: 0.5s ease;
+}
+
+.image:hover {
+    opacity: 1.5;
+}

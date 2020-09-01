@@ -8,7 +8,7 @@ class RegisterService {
 
     def register(Object body) {
         Set<Role> roles = new HashSet<>()
-        def role = new Role(authority: body.authority).save()
+        def role = new Role(authority: "ROLE_USER").save(flush: true)
         roles.add(role)
         def user = new User(
                 username: body.username,
@@ -19,7 +19,7 @@ class RegisterService {
                 email: body.email,
                 projects: new HashSet<Project>(),
                 accountType: 'standard'
-        ).save()
-        UserRole.create(user, role, true).save()
+        ).save(flush: true, failOnError: true)
+        UserRole.create(user, role, true).save(flush: true)
     }
 }

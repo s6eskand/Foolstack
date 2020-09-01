@@ -1,0 +1,96 @@
+
+.profileHeader {
+    width: 300px;
+}
+
+.profileMain {
+    margin: 10px
+}
+
+.profileContentHeader {
+    display: flex;
+    flex-direction: column;
+}
+
+.profilePicture {
+    height: auto;
+    border-radius: 50%;
+}
+
+.profileContentMain {
+    margin-top: 10px;
+}
+
+.profileContent {
+    margin-top: 10px;
+}
+
+.profileName {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.profileUsername {
+    font-size: 1.3rem;
+    font-weight: lighter;
+}
+
+.profileContentBio {
+    font-size: 1rem;
+    margin-top: 20px;
+}
+
+.profileContentSecondary {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.profileContentSecondary div {
+    cursor: pointer;
+    display: flex;
+}
+
+.profileUrl {
+    text-decoration: underline;
+    color: #4EB6C4;
+    margin-left: 5px;
+}
+
+.editInfo {
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: inherit;
+}
+
+@media screen and (max-width: 760px) {
+
+    .profileHeader {
+        width: auto;
+    }
+
+    .profilePicture {
+        height: 160px;
+        width: 160px;
+    }
+
+    .profileContentHeader {
+        flex-direction: row;
+    }
+
+    .profileContentMain {
+        margin: 0 10px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .profilePicture {
+        height: 60px;
+        width: 60px;
+    }
+}
