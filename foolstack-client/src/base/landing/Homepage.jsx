@@ -5,6 +5,7 @@ import Landing from "./Landing";
 import Navbar from "../../components/navigation/Navbar";
 import NavbarAuth from "../../components/navigation/NavbarAuth";
 import Dashboard from "../../components/dashboard/Dashboard";
+import NotFound from "../NotFound";
 
 // routing
 import { Route, Switch, useHistory } from 'react-router-dom';
@@ -60,14 +61,12 @@ function Homepage(props) {
             }
             <Switch>
                 {props.isAuthenticated ?
-                    <>
-                        {/* If accessing routes that do not exist, link to base page for now */}
-                        <Route path="/" component={Dashboard}/>
-                    </>
+                    <Route path="/" exact component={Dashboard}/>
                     :
-                    // If acessing routes that do not exist, link to base page for now
                     <Route path="/" exact component={Landing}/>
                 }
+                {/* Standard 404 page for entire application */}
+                <Route path="/" component={NotFound} />
             </Switch>
         </>
     )
