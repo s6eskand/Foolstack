@@ -4,7 +4,10 @@ import grails.plugin.springsecurity.annotation.Secured
 
 class AccountController {
 
-    static allowedMethods = [getUser: 'POST']
+    static allowedMethods = [
+            getUser: 'POST',
+            edit: 'POST',
+    ]
     static responseFormats = ['json']
 
     def accountService
@@ -15,9 +18,9 @@ class AccountController {
     }
 
     @Secured(['ROLE_USER'])
-    def searchUser() {
-        String username = request.parameterMap.get('username')[0]
-        respond accountService.userSearch(username)
+    def edit() {
+        response.setContentType('application/json')
+        response << accountService.editProfile(request.JSON)
     }
 
 }
