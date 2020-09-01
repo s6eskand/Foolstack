@@ -32,10 +32,12 @@ function UserProfileHeader(props) {
     }
 
     const formatLink = (url) => {
-        if (url.includes('://')) {
-            return url.split('://')[1]
-        } else {
-            return url
+        if (url) {
+            if (url.includes('://')) {
+                return url.split('://')[1]
+            } else {
+                return url
+            }
         }
     }
 

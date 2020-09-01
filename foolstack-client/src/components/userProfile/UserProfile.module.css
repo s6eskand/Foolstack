@@ -5,8 +5,18 @@
     flex-wrap: nowrap;
 }
 
-.projectList {
+.projectContent {
     margin-left: 17%;
+}
+
+.projectActions {
+    width: 600px;
+    max-width: 600px;
+    margin-bottom: 50px;
+    display: flex;
+}
+
+.projectList {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -21,5 +31,15 @@
 
     .projectList {
         margin: 40px 0;
+    }
+
+    .projectContent {
+        margin: 0;
+    }
+
+    .projectActions {
+        margin-top: 30px;
+        margin-bottom: 10px;
+        width: auto;
     }
 }

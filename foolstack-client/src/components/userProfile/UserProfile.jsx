@@ -10,14 +10,34 @@ import styles from './UserProfile.module.css';
 
 // material components
 import {
-    List
+    List,
+    TextField,
+    Divider
 } from "@material-ui/core";
 
 function UserProfile(props) {
+    const [state, setState] = useState({
+        searchValue: '',
+    })
 
     useEffect(() => {
 
     }, [props.user])
+
+    const handleChange = (e) => {
+        setState({
+            ...state,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    const filterByName = (projects) => {
+        if (state.searchValue.length > 0) {
+            return [...projects.filter(project => project.title.includes(state.searchValue))];
+        } else {
+            return projects
+        }
+    }
 
     return (
         <div className="container">
@@ -30,20 +50,33 @@ function UserProfile(props) {
                     user={props.user}
                     editAccount={props.editAccount}
                 />
-                <div className={styles.projectList}>
-                {props.user.projects.length > 0 ?
-                    <List>
-                        {props.user.projects.map(project => (
-                            <ProjectListItem
-                                project={project}
+                <div className={styles.projectContent}>
+                    <div className={styles.projectActions}>
+                        <TextField
+                            onChange={handleChange}
+                            value={state.searchValue}
+                            name="searchValue"
+                            variant="outlined"
+                            fullWidth
+                            margin="dense"
+                            placeholder="Search projects by name..."
+                        />
+                    </div>
+                    {props.user.projects.length > 0 ?
+                        <List component="div">
+                            {filterByName(props.user.projects).map(project => (
+                                <ProjectListItem
+                                    project={project}
+                                />
+                            ))}
+                        </List>
+                        :
+                        <div className={styles.projectList}>
+                            <NoProjects
+                                user={props.user}
                             />
-                        ))}
-                    </List>
-                    :
-                    <NoProjects
-                        user={props.user}
-                    />
-                }
+                        </div>
+                    }
                 </div>
             </div>
         </div>
