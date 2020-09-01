@@ -1,7 +1,7 @@
 import React from 'react';
 
 // custom components
-import UserProfile from "./userProfile/UserProfile";
+import UserProfile from "../userProfile/UserProfile";
 import AlertPopup from "../global/alerts/AlertPopup";
 import LoadingFullscreen from "../global/LoadingFullscreen";
 

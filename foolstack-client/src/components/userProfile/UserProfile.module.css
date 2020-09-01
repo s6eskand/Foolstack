@@ -2,5 +2,24 @@
     margin-top: 100px;
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+}
+
+.projectList {
+    margin-left: 17%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: auto;
+    align-items: center;
+}
+
+@media screen and (max-width: 760px) {
+    .root {
+        flex-direction: column;
+    }
+
+    .projectList {
+        margin: 40px 0;
+    }
 }

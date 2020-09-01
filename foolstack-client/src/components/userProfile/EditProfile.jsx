@@ -28,9 +28,9 @@ import {
 
 // styling
 import styles from './EditProfile.module.css';
-import LoadingFullscreen from "../../global/LoadingFullscreen";
-import AlertPopup from "../../global/alerts/AlertPopup";
-import {ERROR, SUCCESS} from "../../global/constants";
+import LoadingFullscreen from "../global/LoadingFullscreen";
+import AlertPopup from "../global/alerts/AlertPopup";
+import {ERROR, SUCCESS} from "../global/constants";
 
 function EditProfile(props) {
     const fullScreen = useMediaQuery('(max-width: 760px)')
