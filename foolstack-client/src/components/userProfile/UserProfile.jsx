@@ -24,6 +24,9 @@ function UserProfile(props) {
                     editAccount={props.editAccount}
                 />
             </div>
+            <div>
+                
+            </div>
         </div>
     )
 
