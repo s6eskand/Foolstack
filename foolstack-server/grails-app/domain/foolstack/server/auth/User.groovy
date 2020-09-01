@@ -49,6 +49,7 @@ class User implements Serializable {
         githubUsername nullable: true
     }
 
+    // indexing Domain class fields allows for faster lookup through GORM
     static mapping = {
 	    password column: '`password`'
         username index: true
