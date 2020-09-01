@@ -4,3 +4,6 @@ export const AUTH_REGISTER = "AUTH_REGISTER";
 export const GET_USER = "GET_USER";
 export const STORE_USER = "STORE_USER";
 export const AUTH_LOGOUT = "AUTH_LOGOUT";
+export const VALIDATE_USER = "VALIDATE_USER";
+export const SET_IS_AUTHENTICATED = "SET_IS_AUTHENTICATED";
+export const EDIT_ACCOUNT_INFO = "EDIT_ACCOUNT_INFO";
