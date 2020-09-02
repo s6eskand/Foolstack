@@ -5,6 +5,7 @@ import grails.plugin.springsecurity.annotation.Secured
 class AccountController {
 
     static allowedMethods = [
+            list: 'GET',
             getUser: 'POST',
             edit: 'POST',
             search: 'POST'
@@ -12,6 +13,11 @@ class AccountController {
     static responseFormats = ['json']
 
     def accountService
+
+    @Secured('permitAll')
+    def list() {
+        respond accountService.listAllUsers()
+    }
 
     @Secured(['ROLE_USER'])
     def getUser() {

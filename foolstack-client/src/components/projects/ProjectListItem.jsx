@@ -2,6 +2,8 @@ import React from 'react';
 
 import githubColors from 'github-colors';
 
+import { useHistory } from 'react-router-dom';
+
 // material components
 import {
     ListItem,
@@ -21,9 +23,14 @@ import {
 import styles from './ProjectListItem.module.css'
 
 function ProjectListItem(props) {
+    const history = useHistory();
 
     const setColor = (lang) => {
         return githubColors.get(lang, true).color
+    }
+
+    const redirect = (path) => () => {
+        history.push(path)
     }
 
     return (
@@ -31,10 +38,11 @@ function ProjectListItem(props) {
             <ListItem>
                 <ListItemIcon>
                     {props.project.isPrivate ?
-                        <Lock /> : <AccountTree />
+                        <Lock style={{color: '#4EB6C4'}} /> : <AccountTree style={{color: '#4EB6C4'}} />
                     }
                 </ListItemIcon>
                 <ListItemText
+                    onClick={redirect(`/projects/${props.project.projectTitle}`)}
                     className={styles.projectText}
                     primary={props.project.projectTitle}
                     secondary={props.project.projectDescription}

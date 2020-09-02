@@ -18,9 +18,6 @@ import {
     Menu,
     makeStyles,
     fade,
-    CircularProgress,
-    Badge,
-    Divider,
     useMediaQuery,
 } from "@material-ui/core";
 
@@ -41,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: 'rgb(243, 243, 243)',
         height: '77px',
         boxShadow: 'none',
+        zIndex: theme.zIndex.drawer + 1
     },
     img: {
         cursor: 'pointer',
@@ -119,12 +117,15 @@ function NavbarAuth(props) {
 
     const redirect = (path) => {
         history.push(path)
+        setSearchValue('')
     }
 
     const handleSearchChange = (e) => {
         const searchVal = e.target.value
         setSearchValue(searchVal)
-        props.search(searchVal)
+        if (searchVal.includes('\n')) {
+            redirect(`/users/${searchValue}`)
+        }
     }
 
     const handleProfileMenuOpen = (e) => {
@@ -138,7 +139,7 @@ function NavbarAuth(props) {
     }
 
     const handleLogout = () => {
-        props.authLogout();
+        props.authLogout(history);
         handleProfileMenuClose();
     }
 
@@ -217,7 +218,11 @@ function NavbarAuth(props) {
                         />
                     </div>
                     <InputBase
+                        multiline
+                        style={{padding: 0}}
+                        rows={1}
                         onChange={handleSearchChange}
+                        value={searchValue}
                         placeholder="Search…"
                         classes={{
                             input: classes.inputInput,

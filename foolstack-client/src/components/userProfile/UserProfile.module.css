@@ -6,12 +6,12 @@
 }
 
 .projectContent {
-    margin-left: 17%;
+    margin-left: 10%;
 }
 
 .projectActions {
-    width: 600px;
-    max-width: 600px;
+    width: 800px;
+    max-width: 800px;
     margin-bottom: 50px;
     display: flex;
 }

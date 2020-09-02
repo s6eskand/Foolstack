@@ -130,6 +130,7 @@ class ProjectService {
                         commit.githubSha = obj.sha
                         commit.githubUrl = obj.html_url
                         commit.author = obj.author.login
+                        commit.avatar = obj.author.avatar_url
                         commit.message = obj.commit.message
                         commit.date = obj.commit.author.date
                     }
@@ -206,6 +207,7 @@ class ProjectService {
                     newProject.issues = issues
                     newProject.pullRequests = pullRequests
                     newProject.services = new HashSet<Service>()
+                    newProject.codeFiles = new HashSet<Code>()
                     newProject.canEdit = canEdit
                     newProject.save(flush: true, failOnError: true)
                 }
@@ -253,6 +255,7 @@ class ProjectService {
                     newProject.issues = new HashSet<Issue>()
                     newProject.pullRequests = new HashSet<PullRequest>()
                     newProject.services = new HashSet<Service>()
+                    newProject.codeFiles = new HashSet<Code>()
                     newProject.canEdit = canEdit
                     newProject.save(flush: true, failOnError: true)
                 }
@@ -271,6 +274,36 @@ class ProjectService {
                 return error
             }
 
+        }
+
+    }
+
+    def createReadme(Object body) {
+        String username = body.owner
+        String projectTitle = body.projectTitle
+        String readmeContent = body.content
+
+        User user = User.findByUsername(username)
+        Project project = Project.findByProjectTitle(projectTitle)
+
+        Project.withTransaction {
+            project.readMe = readmeContent
+            project.save(flush: true, failOnError: true)
+        }
+
+        Set<Project> projects = new HashSet<>()
+
+        for (Project p : user.projects) {
+            if (p.projectTitle == projectTitle) {
+                projects.add(project)
+            } else {
+                projects.add(p)
+            }
+        }
+
+        User.withTransaction {
+            user.projects = projects
+            user.save(flush: true, failOnError: true)
         }
 
     }

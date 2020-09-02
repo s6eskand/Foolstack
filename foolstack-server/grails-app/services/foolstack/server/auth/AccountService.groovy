@@ -9,6 +9,10 @@ import java.awt.Image
 @Transactional
 class AccountService {
 
+    def listAllUsers() {
+        return User.listOrderById()
+    }
+
     def getUser(Object body) {
         return User.findByUsername(body.username)
     }
@@ -66,7 +70,6 @@ class AccountService {
         }
 
         return '{"success": true, "message": "account info successfully updated"}'
-
 
     }
 

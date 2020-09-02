@@ -1,7 +1,10 @@
 import {
     STORE_SEARCH_RESULTS,
     SEARCH_LOADING,
-    SEARCH_USERS, GET_GITHUB_REPOS, STORE_GITHUB_REPOS, CREATE_PROJECT,
+    SEARCH_USERS,
+    GET_GITHUB_REPOS,
+    STORE_GITHUB_REPOS,
+    CREATE_PROJECT, LIST_ALL_PROJECTS, STORE_ALL_PROJECTS, CREATE_README, UPDATE_PROJECTS,
 } from "../../constants/project";
 
 export const searchUsers = (searchValue) => ({
@@ -34,4 +37,24 @@ export const createProject = (project, refresh, history) => ({
     project,
     refresh,
     history,
+});
+
+export const listAllProjects = () => ({
+    type: LIST_ALL_PROJECTS,
+});
+
+export const storeAllProjects = (projects) => ({
+    type: STORE_ALL_PROJECTS,
+    projects,
+});
+
+export const createReadme = (readme, close) => ({
+    type: CREATE_README,
+    readme,
+    close,
+});
+
+export const updateProjects = (project) => ({
+    type: UPDATE_PROJECTS,
+    project,
 });

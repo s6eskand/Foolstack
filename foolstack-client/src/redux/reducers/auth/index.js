@@ -1,6 +1,7 @@
 import {
     STORE_USER,
-    STORE_TOKEN, SET_IS_AUTHENTICATED
+    STORE_TOKEN,
+    SET_IS_AUTHENTICATED
 } from "../../constants/auth";
 import {
     AUTH_KEY

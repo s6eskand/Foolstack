@@ -7,8 +7,8 @@ import axios from 'axios';
 
 // constants for actions
 import {
-    CREATE_PROJECT,
-    GET_GITHUB_REPOS,
+    CREATE_PROJECT, CREATE_README,
+    GET_GITHUB_REPOS, LIST_ALL_PROJECTS,
     SEARCH_USERS,
 } from "../../constants/project";
 
@@ -19,8 +19,8 @@ import {
 
 // secondary actions
 import {
-    searchLoading, storeGithubRepos,
-    storeSearchResults,
+    searchLoading, storeAllProjects, storeGithubRepos,
+    storeSearchResults, updateProjects,
 } from "../../actions/project";
 import {requestStatus, setLoadingStatus} from "../../actions/global";
 import {
@@ -42,6 +42,11 @@ function* getAuthRequest(endpoint) {
             "Authorization": `Bearer ${localStorage.getItem('token')}`
         }
     })
+        .then(response => response)
+}
+
+function* getNoAuthRequest(endpoint) {
+    return yield axios.get(endpoint)
         .then(response => response)
 }
 
@@ -90,8 +95,8 @@ function* createProject(action) {
         } else {
             const getUserResponse = yield call(() => postAuthRequest(SERVER_ENDPOINTS.GET_USER, {username: action.project.username}));
             yield put(storeUser(getUserResponse.data));
-            yield action.refresh();
-            yield action.history.push(`/${action.project.username}/${action.project.projectTitle}`);
+            yield action.history.push(`/projects/${response.data.projectTitle}`);
+            yield action.refresh()
         }
 
     } catch {
@@ -105,8 +110,36 @@ function* createProject(action) {
     }
 }
 
+function* listAllProjects() {
+    try {
+        const response = yield call(() => getNoAuthRequest(SERVER_ENDPOINTS.LIST_ALL_PROJECTS));
+        if (response.status === 200) {
+            yield put(storeAllProjects(response.data))
+        }
+    } catch (e) {
+        throw new Error(e)
+    }
+}
+
+function* createReadme(action) {
+    yield put(setLoadingStatus(true))
+    try {
+        const response = yield call(() => postAuthRequest(SERVER_ENDPOINTS.CREATE_README, action.readme));
+        if (response.status === 200) {
+            yield put(updateProjects(response.data))
+            yield put(setLoadingStatus(false))
+            yield action.close();
+        }
+    } catch (e) {
+        yield put(setLoadingStatus(false))
+        throw new Error(e)
+    }
+}
+
 export default function* projectSagas() {
     yield takeLatest(SEARCH_USERS, searchUsers);
     yield takeLatest(GET_GITHUB_REPOS, getGithubRepos);
     yield takeLatest(CREATE_PROJECT, createProject);
+    yield takeLatest(LIST_ALL_PROJECTS, listAllProjects);
+    yield takeLatest(CREATE_README, createReadme);
 }

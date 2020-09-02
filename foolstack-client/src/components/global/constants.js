@@ -14,6 +14,9 @@ export const SERVER_ENDPOINTS = {
     GET_USER: `${BASE_URL}/account/getUser`,
     SEARCH_USERS: `${BASE_URL}/account/search`,
     EDIT_PROFILE: `${BASE_URL}/account/edit`,
+    LIST_ALL_USERS: `${BASE_URL}/account/list`,
     GET_GITHUB_REPOS: `${BASE_URL}/project/github?username=`,
-    CREATE_PROJECT: `${BASE_URL}/project/create`
+    CREATE_PROJECT: `${BASE_URL}/project/create`,
+    LIST_ALL_PROJECTS: `${BASE_URL}/project/list`,
+    CREATE_README: `${BASE_URL}/project/readme`,
 }

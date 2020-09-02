@@ -26,6 +26,7 @@ import {
     setOpen,
     clearStatus
 } from "../../actions/global";
+import {storeGithubRepos} from "../../actions/project";
 
 function* postRequest(endpoint, data) {
     return yield axios.post(endpoint, data, {
@@ -122,6 +123,8 @@ function* authLogout(action) {
     yield put(storeToken(null, false));
     yield localStorage.clear();
     yield put(storeUser({}));
+    yield put(storeGithubRepos([]))
+    yield action.history.push('/')
 }
 
 function* validateUser() {

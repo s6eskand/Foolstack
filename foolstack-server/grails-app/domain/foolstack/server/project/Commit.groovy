@@ -15,6 +15,7 @@ class Commit {
     String githubSha
     String githubUrl
     String author
+    String avatar
     String message
     String date
 

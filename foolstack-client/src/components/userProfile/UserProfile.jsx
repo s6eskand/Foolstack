@@ -43,6 +43,7 @@ function UserProfile(props) {
         <div className="container">
             <div className={styles.root}>
                 <UserProfileHeader
+                    canEdit={props.canEdit}
                     handleAlertClose={props.handleAlertClose}
                     loading={props.loading}
                     requestStatus={props.requestStatus}
@@ -72,9 +73,7 @@ function UserProfile(props) {
                         </List>
                         :
                         <div className={styles.projectList}>
-                            <NoProjects
-                                user={props.user}
-                            />
+                            <NoProjects />
                         </div>
                     }
                 </div>
