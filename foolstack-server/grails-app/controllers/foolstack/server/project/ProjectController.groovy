@@ -10,7 +10,11 @@ class ProjectController {
     static allowedMethods = [
             list: 'GET',
             account: 'GET',
-            github: 'GET'
+            github: 'GET',
+            create: 'POST',
+            readme: 'POST',
+            addCode: 'POST',
+            editCode: 'POST'
     ]
     static responseFormats = ['json']
 
@@ -42,6 +46,21 @@ class ProjectController {
     @Secured('ROLE_USER')
     def create() {
         respond projectService.create(request.JSON)
+    }
+
+    @Secured('ROLE_USER')
+    def readme() {
+        respond projectService.createReadme(request.JSON)
+    }
+
+    @Secured('ROLE_USER')
+    def addCode() {
+        respond projectService.createFile(request.JSON)
+    }
+
+    @Secured('ROLE_USER')
+    def editCode() {
+        respond projectService.editCodeFile(request.JSON)
     }
 
 }

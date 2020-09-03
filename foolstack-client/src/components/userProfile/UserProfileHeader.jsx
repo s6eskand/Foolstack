@@ -84,10 +84,14 @@ function UserProfileHeader(props) {
                     </div>
                 </div>
             </div>
-            <button className={styles.editInfo} onClick={handleDialogOpen}>
-                <Edit style={{marginRight: "5px"}} />
-                <p>{EDIT_PROFILE_TITLE}</p>
-            </button>
+            {props.canEdit ?
+                <button className={styles.editInfo} onClick={handleDialogOpen}>
+                    <Edit style={{marginRight: "5px"}}/>
+                    <p>{EDIT_PROFILE_TITLE}</p>
+                </button>
+                :
+                null
+            }
         </div>
         </>
     )

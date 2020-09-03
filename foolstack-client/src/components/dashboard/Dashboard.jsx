@@ -25,14 +25,23 @@ import {ERROR, SUCCESS} from "../global/constants";
 
 function Dashboard(props) {
 
+    const checkEditPermission = () => {
+        if (props.userInfo && props.fromSearch) {
+            return props.userInfo.username === props.linkedUser
+        } else {
+            return true
+        }
+    }
+
     return (
         <div>
             <UserProfile
+                canEdit={checkEditPermission()}
                 handleAlertClose={props.setOpen}
                 loading={props.loading}
                 alertOpen={props.open}
                 requestStatus={props.requestStatus}
-                user={props.userInfo}
+                user={checkEditPermission() ? props.userInfo : props.user}
                 editAccount={props.editAccountInfo}
             />
         </div>

@@ -21,6 +21,7 @@ class Project {
     String mainLanguage
     Set<String> languages
     String owner
+    String readMe
     boolean isPrivate = false
     boolean fromGithub = false
     boolean linkCommits = false
@@ -31,6 +32,7 @@ class Project {
     Set<Issue> issues
     Set<PullRequest> pullRequests
     Set<Service> services
+    Set<Code> codeFiles
     Set<String> canEdit
 
     static embedded = [
@@ -38,7 +40,8 @@ class Project {
             'commits',
             'issues',
             'pullRequests',
-            'languages'
+            'languages',
+            'codeFiles',
     ]
 
     static constraints = {
@@ -50,5 +53,6 @@ class Project {
         linkIssues nullable: true
         linkPullRequests nullable: true
         githubUrl nullable: true
+        readMe nullable: true
     }
 }

@@ -14,8 +14,9 @@ export const authLogin = (loginData, close) => ({
     close,
 });
 
-export const authLogout = () => ({
-    type: AUTH_LOGOUT
+export const authLogout = (history) => ({
+    type: AUTH_LOGOUT,
+    history,
 });
 
 export const authRegister = (registerInfo, close) => ({

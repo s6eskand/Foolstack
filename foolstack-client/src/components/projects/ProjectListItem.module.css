@@ -5,3 +5,8 @@
 .projectText span {
     padding-right: 10px;
 }
+
+.projectText:hover span {
+    text-decoration: underline;
+    cursor: pointer;
+}

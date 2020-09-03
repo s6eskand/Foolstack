@@ -6,6 +6,8 @@ import Navbar from "../../components/navigation/Navbar";
 import NavbarAuth from "../../components/navigation/NavbarAuth";
 import Dashboard from "../../components/dashboard/Dashboard";
 import NotFound from "../NotFound";
+import ViewableDashboard from "../../components/dashboard/ViewableDashboard";
+import ViewableProject from "../../components/projects/ViewableProject";
 
 // routing
 import { Route, Switch, useHistory } from 'react-router-dom';
@@ -13,14 +15,15 @@ import { Route, Switch, useHistory } from 'react-router-dom';
 // redux
 import withShipment from "../../withShipment";
 import {
-    isAuthenticatedSelector, userInfoSelector
+    isAuthenticatedSelector,
+    userInfoSelector
 } from "../../redux/selectors/auth";
 import {
     isSearchLoadingSelector,
     searchResultsSelector,
 } from "../../redux/selectors/project";
 import {
-    searchUsers
+    searchUsers,
 } from "../../redux/actions/project";
 import {
     editAccountInfo,
@@ -65,6 +68,10 @@ function Homepage(props) {
                     :
                     <Route path="/" exact component={Landing}/>
                 }
+                {/* List all user accounts to be seen */}
+                <Route exact path="/users/:username" component={ViewableDashboard} />
+                {/* List all user projects to be seen */}
+                <Route exact path="/projects/:projectTitle" component={ViewableProject} />
                 {/* Standard 404 page for entire application */}
                 <Route path="/" component={NotFound} />
             </Switch>

@@ -2,10 +2,12 @@
 // sagas
 import authSagas from "./auth";
 import projectSagas from "./project";
+import accountSagas from "./account";
 
 const sagas = [
     authSagas,
     projectSagas,
+    accountSagas,
 ];
 
 const registerSagas = (middleware) => {

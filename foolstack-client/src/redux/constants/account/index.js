@@ -1,0 +1,2 @@
+export const LIST_ALL_USERS = "LIST_ALL_USERS";
+export const STORE_ALL_USERS = "STORE_ALL_USERS";

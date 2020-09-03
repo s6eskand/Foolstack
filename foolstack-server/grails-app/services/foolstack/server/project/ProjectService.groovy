@@ -10,6 +10,22 @@ import org.grails.web.json.JSONElement
 @Transactional
 class ProjectService {
 
+    def updateUserProjects(User user, Project project, String projectTitle) {
+        Set<Project> projects = new HashSet<>()
+        for (Project p : user.projects) {
+            if (p.projectTitle == projectTitle) {
+                projects.add(project)
+            } else {
+                projects.add(p)
+            }
+        }
+
+        User.withTransaction {
+            user.projects = projects
+            user.save(flush: true, failOnError: true)
+        }
+    }
+
     def makeGithubRequest(URL url) {
 
         // open HTTP connection
@@ -130,6 +146,7 @@ class ProjectService {
                         commit.githubSha = obj.sha
                         commit.githubUrl = obj.html_url
                         commit.author = obj.author.login
+                        commit.avatar = obj.author.avatar_url
                         commit.message = obj.commit.message
                         commit.date = obj.commit.author.date
                     }
@@ -206,6 +223,7 @@ class ProjectService {
                     newProject.issues = issues
                     newProject.pullRequests = pullRequests
                     newProject.services = new HashSet<Service>()
+                    newProject.codeFiles = new HashSet<Code>()
                     newProject.canEdit = canEdit
                     newProject.save(flush: true, failOnError: true)
                 }
@@ -253,6 +271,7 @@ class ProjectService {
                     newProject.issues = new HashSet<Issue>()
                     newProject.pullRequests = new HashSet<PullRequest>()
                     newProject.services = new HashSet<Service>()
+                    newProject.codeFiles = new HashSet<Code>()
                     newProject.canEdit = canEdit
                     newProject.save(flush: true, failOnError: true)
                 }
@@ -272,6 +291,87 @@ class ProjectService {
             }
 
         }
+
+    }
+
+    def createReadme(Object body) {
+        String username = body.owner
+        String projectTitle = body.projectTitle
+        String readmeContent = body.content
+
+        User user = User.findByUsername(username)
+        Project project = Project.findByProjectTitle(projectTitle)
+
+        Project.withTransaction {
+            project.readMe = readmeContent
+            project.save(flush: true, failOnError: true)
+        }
+
+        updateUserProjects(user, project, projectTitle)
+        return project
+
+    }
+
+    def createFile(Object body) {
+
+        String username = body.owner
+        String projectTitle = body.projectTitle
+        User user = User.findByUsername(username)
+        Project project = Project.findByProjectTitle(projectTitle)
+
+        Set<Code> codeFiles = project.codeFiles
+        Code code = new Code(
+                projectId: project.projectId,
+                codeId: UUID.randomUUID().toString(),
+                name: body.name,
+                language: body.language,
+                content: body.content
+        )
+
+        codeFiles.add(code)
+
+        Project.withTransaction {
+            project.codeFiles = codeFiles
+            project.save(flush: true, failOnError: true)
+        }
+
+        updateUserProjects(user, project, projectTitle)
+        return project
+
+    }
+
+    def editCodeFile(Object body) {
+
+        String codeId = body.codeId
+        String username = body.owner
+        String projectTitle = body.projectTitle
+        User user = User.findByUsername(username)
+        Project project = Project.findByProjectTitle(projectTitle)
+
+        Set<Code> codeFiles = new HashSet<>()
+        Code code = new Code(
+                projectId: project.projectId,
+                codeId: UUID.randomUUID().toString(),
+                name: body.name,
+                language: body.language,
+                content: body.content
+        )
+
+        for (Code c : project.codeFiles) {
+            if (c.codeId == codeId) {
+                codeFiles.add(code)
+            } else {
+                codeFiles.add(c)
+            }
+        }
+
+        Project.withTransaction {
+            project.codeFiles = codeFiles
+            project.save(flush: true, failOnError: true)
+        }
+
+        updateUserProjects(user, project, projectTitle)
+        return project
 
     }
 
