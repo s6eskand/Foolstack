@@ -4,7 +4,7 @@ export const SUCCESS = 'success';
 export const WARNING = 'warning';
 export const INFO = 'info';
 
-const BASE_URL = 'http://localhost:8080'
+const BASE_URL = 'https://foolstack.azurewebsites.net'
 
 export const SERVER_ENDPOINTS = {
     AUTH_LOGIN: `${BASE_URL}/api/login`,

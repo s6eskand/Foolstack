@@ -96,7 +96,7 @@ management:
 ---
 grails:
     mongodb:
-        host: localhost
+        host: foolstack-shard-00-01.agcmt.azure.mongodb.net
         port: 27017
         username: ""
         password: ""
@@ -141,7 +141,7 @@ environments:
     production:
         grails:
             mongodb:
-                host: localhost
+                host: foolstack-shard-00-01.agcmt.azure.mongodb.net
                 port: 27017
                 username: ""
                 password: ""
