@@ -7,8 +7,8 @@ import axios from 'axios';
 
 // constants for actions
 import {
-    CREATE_CODE_FILE, CREATE_OR_EDIT_SCHEMA,
-    CREATE_PROJECT, CREATE_README, DELETE_SCHEMA, EDIT_CODE_FILE,
+    CREATE_CODE_FILE, CREATE_OR_EDIT_SCHEMA, CREATE_OR_EDIT_SERVICE,
+    CREATE_PROJECT, CREATE_README, DELETE_CODE_FILE, DELETE_PROJECT, DELETE_SCHEMA, DELETE_SERVICE, EDIT_CODE_FILE,
     GET_GITHUB_REPOS, LIST_ALL_PROJECTS,
     SEARCH_USERS,
 } from "../../constants/project";
@@ -21,7 +21,7 @@ import {
 // secondary actions
 import {
     searchLoading, storeAllProjects, storeGithubRepos,
-    storeSearchResults, updateProjects,
+    storeSearchResults, updateProjects, updateProjectsAfterDelete,
 } from "../../actions/project";
 import {requestStatus, setLoadingStatus} from "../../actions/global";
 import {
@@ -189,11 +189,76 @@ function* deleteSchema(action) {
         if (response.status === 200) {
             yield put(updateProjects(response.data))
             yield put(setLoadingStatus(false))
+            yield action.reload()
         }
     } catch (e) {
         yield put(setLoadingStatus(false))
         throw new Error(e)
     }
+    yield action.reload()
+}
+
+function* createOrEditService(action) {
+    yield put(setLoadingStatus(true))
+    try {
+        const response = yield call(() => postAuthRequest(SERVER_ENDPOINTS.CREATE_OR_EDIT_SERVICE, action.service));
+        if (response.status === 200) {
+            yield put(updateProjects(response.data))
+            yield put(setLoadingStatus(false))
+            yield action.close();
+        }
+    } catch (e) {
+        yield put(setLoadingStatus(false))
+        throw new Error(e)
+    }
+}
+
+function* deleteService(action) {
+    yield put(setLoadingStatus(true))
+    try {
+        const response = yield call(() => postAuthRequest(SERVER_ENDPOINTS.DELETE_SERVICE, action.service));
+        if (response.status === 200) {
+            yield put(updateProjects(response.data))
+            yield put(setLoadingStatus(false))
+            yield action.reload()
+        }
+    } catch (e) {
+        yield put(setLoadingStatus(false))
+        throw new Error(e)
+    }
+    yield action.reload()
+}
+
+function* deleteCodeFile(action) {
+    yield put(setLoadingStatus(true))
+    try {
+        const response = yield call(() => postAuthRequest(SERVER_ENDPOINTS.DELETE_CODE_FILE, action.file));
+        if (response.status === 200) {
+            yield put(updateProjects(response.data))
+            yield put(setLoadingStatus(false))
+            yield action.reload()
+        }
+    } catch (e) {
+        yield put(setLoadingStatus(false))
+        throw new Error(e)
+    }
+    yield action.reload()
+}
+
+function* deleteProject(action) {
+    yield put(setLoadingStatus(true))
+    try {
+        const response = yield call(() => SERVER_ENDPOINTS.DELETE_PROJECT, action.project);
+        if (response.status === 200) {
+            yield put(updateProjectsAfterDelete(action.project));
+            yield put(setLoadingStatus(false))
+            yield action.reload()
+        }
+    } catch (e) {
+        yield put(setLoadingStatus(false))
+        throw new Error(e)
+    }
+    yield action.reload()
 }
 
 export default function* projectSagas() {
@@ -206,4 +271,8 @@ export default function* projectSagas() {
     yield takeLatest(EDIT_CODE_FILE, editCodeFile);
     yield takeLatest(CREATE_OR_EDIT_SCHEMA, createOrEditSchema);
     yield takeLatest(DELETE_SCHEMA, deleteSchema);
+    yield takeLatest(CREATE_OR_EDIT_SERVICE, createOrEditService);
+    yield takeLatest(DELETE_CODE_FILE, deleteCodeFile);
+    yield takeLatest(DELETE_PROJECT, deleteProject);
+    yield takeLatest(DELETE_SERVICE, deleteService);
 }

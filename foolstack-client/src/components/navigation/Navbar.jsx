@@ -58,12 +58,6 @@ class Navbar extends React.Component {
                             <li className="nav-link-1">
                                 <a href="#">Features</a>
                             </li>
-                            <li className="nav-link-2">
-                                <a href="#">Pricing</a>
-                            </li>
-                            <li className="nav-link-3">
-                                <a href="#">Enterprise</a>
-                            </li>
                             <hr id="nav-hr-animation"/>
                         </ul>
                     </div>

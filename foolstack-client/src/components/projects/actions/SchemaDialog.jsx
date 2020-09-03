@@ -161,7 +161,7 @@ function SchemaDialog(props) {
                     variant="contained"
                     style={{backgroundColor: '#4EB6C4'}}
                 >
-                    {props.isEdit ? SAVE : CREATE}
+                    {CREATE}
                 </Button>
             </DialogActions>
         </Dialog>

@@ -51,7 +51,8 @@ function Schema(props) {
             schemaId: props.schema.schemaId
         }
 
-        props.deleteSchema(data)
+        props.deleteSchema(data, () => window.location.reload())
+        setTimeout(() => window.location.reload(), 1000)
     }
 
     return (
@@ -67,7 +68,7 @@ function Schema(props) {
         <div className={styles.schema}>
             <div className={styles.mainContent}>
                 <h2 className={styles.title}>{props.schema.name}</h2>
-                {props.user ?
+                {Object.keys(props.user).length > 0 ?
                     <>
                     <IconButton onClick={handleOpenEdit} style={{width: '40px'}}>
                         <Edit />

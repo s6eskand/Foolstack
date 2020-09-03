@@ -1,36 +1,31 @@
-import React, { useState, useEffect } from 'react';
-
-// material components
+import React, {useEffect, useState} from 'react';
 import {
     Button,
-    Dialog,
-    DialogActions,
+    Dialog, DialogActions,
     DialogContent,
     DialogContentText,
     DialogTitle,
+    FormControl, InputLabel, MenuItem, Select,
     TextField,
-    useMediaQuery,
-    FormControl,
-    InputLabel,
-    Select,
-    MenuItem,
+    useMediaQuery
 } from "@material-ui/core";
+import {CANCEL, CREATE, CREATE_CODE_FILE_DESCRIPTION, CREATE_CODE_FILE_TITLE, SAVE} from "./constants";
 
-// constants
-import {
-    CANCEL,
-    CREATE, CREATE_CODE_FILE_DESCRIPTION, CREATE_CODE_FILE_TITLE,
-    CREATE_README_DESCRIPTION,
-    CREATE_README_TITLE, SAVE,
-} from "./constants";
-
-function CodeFileDialog(props) {
+function EditCodeFileDialog(props) {
     const fullScreen = useMediaQuery('(max-width: 760px)')
     const [state, setState] = useState({
         language: '',
         content: '',
         name: '',
     });
+
+    useEffect(() => {
+        setState({
+            language: props.language,
+            content: props.content,
+            name: props.name
+        })
+    }, [])
 
     const handleChange = (e) => {
         setState({
@@ -41,9 +36,9 @@ function CodeFileDialog(props) {
 
     const handleClose = () => {
         setState({
-            language: '',
-            content: '',
-            name: ''
+            language: props.language,
+            content: props.content,
+            name: props.name
         })
         props.handleClose();
     }
@@ -52,13 +47,13 @@ function CodeFileDialog(props) {
         const data = {
             owner: props.owner,
             projectTitle: props.projectTitle,
-            codeId: '',
+            codeId: props.codeId,
             content: state.content,
             language: state.language,
             name: state.name,
         }
 
-        props.createCode(data, handleClose)
+        props.editCode(data, handleClose)
     }
 
     return (
@@ -120,11 +115,11 @@ function CodeFileDialog(props) {
                     variant="contained"
                     style={{backgroundColor: '#4EB6C4'}}
                 >
-                    {CREATE}
+                    {SAVE}
                 </Button>
             </DialogActions>
         </Dialog>
     )
 }
 
-export default CodeFileDialog
+export default EditCodeFileDialog;

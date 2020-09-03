@@ -10,32 +10,38 @@ import {
 // material icons
 import {
     Code,
-    Settings,
+    Dvr,
     Storage,
 } from "@material-ui/icons";
 
-function ProjectSideNav(props) {
-    return (
-        <Drawer
-            variant="persistent"
-            open={props.open}
-            BackdropProps={{
-                invisible: true
-            }}
-        >
-            <Tabs
-                style={{marginTop: '100px'}}
-                onChange={props.handleTabChange}
-                value={props.value}
-                orientation="vertical"
-                variant="scrollable"
+class ProjectSideNav extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return (
+            <Drawer
+                variant="persistent"
+                open={this.props.open}
+                BackdropProps={{
+                    invisible: true
+                }}
             >
-                <Tab icon={<Code />} label="Sample Code" />
-                <Tab icon={<Storage />} label="Database Info" />
-                {props.canEdit ? <Tab icon={<Settings />} label="Settings" /> : null}
-            </Tabs>
-        </Drawer>
-    )
+                <Tabs
+                    style={{marginTop: '100px'}}
+                    onChange={this.props.handleTabChange}
+                    value={this.props.value}
+                    orientation="vertical"
+                    variant="scrollable"
+                >
+                    <Tab icon={<Code/>} label="Sample Code"/>
+                    <Tab icon={<Storage/>} label="Database Info"/>
+                    <Tab icon={<Dvr/>} label="Services"/>
+                </Tabs>
+            </Drawer>
+        )
+    }
 }
 
 export default ProjectSideNav;

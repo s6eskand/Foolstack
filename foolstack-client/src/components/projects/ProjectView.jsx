@@ -8,6 +8,8 @@ import CodeFileDialog from "./actions/CodeFileDialog";
 import ProjectToolbar from "./ProjectToolbar";
 import ProjectSchema from "./schemas/ProjectSchema";
 import SchemaDialog from "./actions/SchemaDialog";
+import ProjectService from "./services/ProjectService";
+import CreateServiceDialog from "./actions/CreateServiceDialog";
 
 // material components
 import {
@@ -33,6 +35,9 @@ import {
     editCodeFile,
     createOrEditSchema,
     deleteSchema,
+    createOrEditService,
+    deleteCodeFile,
+    deleteService,
 } from "../../redux/actions/project";
 
 function ProjectView(props) {
@@ -43,7 +48,22 @@ function ProjectView(props) {
         isCreateReadmeDialogOpen: false,
         isCodeFileDialogOpen: false,
         isSchemaDialogOpen: false,
+        isCreateServiceDialogOpen: false,
     })
+
+    const handleCreateServiceDialogOpen = () => {
+        setState({
+            ...state,
+            isCreateServiceDialogOpen: true,
+        })
+    }
+
+    const handleCreateServiceDialogClose = () => {
+        setState({
+            ...state,
+            isCreateServiceDialogOpen: false,
+        })
+    }
 
     const handleCreateReadmeDialogOpen = () => {
         setState({
@@ -125,6 +145,13 @@ function ProjectView(props) {
                 open={state.isSchemaDialogOpen}
                 createSchema={props.createOrEditSchema}
             />
+            <CreateServiceDialog
+                createService={props.createOrEditService}
+                owner={props.project.owner}
+                projectTitle={props.project.projectTitle}
+                handleClose={handleCreateServiceDialogClose}
+                open={state.isCreateServiceDialogOpen}
+            />
         <div>
             <ProjectSideNav
                 open={state.openSideNav}
@@ -143,14 +170,17 @@ function ProjectView(props) {
                     handleCodeFileOpen={handleCodeFileDialogOpen}
                     handleCreateReadmeOpen={handleCreateReadmeDialogOpen}
                     handleSchemaOpen={handleSchemaDialogOpen}
+                    handleCreateServiceOpen={handleCreateServiceDialogOpen}
                 />
             </div>
             <ProjectCode
+                deleteCode={props.deleteCodeFile}
                 createReadme={props.createReadme}
                 user={props.userInfo}
                 index={0}
                 value={state.value}
                 project={props.project}
+                handleCodeFileDialogOpen={handleCodeFileDialogOpen}
                 handleCodeFileDialogClose={handleCodeFileDialogClose}
                 editCode={props.editCodeFile}
                 handleReadMeClose={handleCreateReadmeDialogClose}
@@ -168,6 +198,14 @@ function ProjectView(props) {
                 handleSchemaClose={handleSchemaDialogClose}
                 isSchemaDialogOpen={state.isSchemaDialogOpen}
             />
+            <ProjectService
+                deleteService={props.deleteService}
+                createService={props.createOrEditService}
+                user={props.userInfo}
+                index={2}
+                value={state.value}
+                project={props.project}
+            />
         </div>
         </>
     )
@@ -184,6 +222,9 @@ const actionCreators = {
     editCodeFile,
     createOrEditSchema,
     deleteSchema,
+    createOrEditService,
+    deleteService,
+    deleteCodeFile,
 };
 
 export default withShipment({

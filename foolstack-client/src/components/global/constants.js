@@ -22,5 +22,9 @@ export const SERVER_ENDPOINTS = {
     CREATE_CODE_FILE: `${BASE_URL}/project/addCode`,
     EDIT_CODE_FILE: `${BASE_URL}/project/editCode`,
     CREATE_OR_EDIT_SCHEMA: `${BASE_URL}/project/schema`,
-    DELETE_SCHEMA: `${BASE_URL}/project/deleteSchema`
+    DELETE_SCHEMA: `${BASE_URL}/project/deleteSchema`,
+    CREATE_OR_EDIT_SERVICE: `${BASE_URL}/project/service`,
+    DELETE_SERVICE: `${BASE_URL}/project/deleteService`,
+    DELETE_PROJECT: `${BASE_URL}/project/delete`,
+    DELETE_CODE_FILE: `${BASE_URL}/project/deleteCode`
 }
