@@ -43,6 +43,7 @@ function SchemaDialog(props) {
     })
 
     useEffect(() => {
+        console.log(props.isEdit)
         setState({
             name: props.isEdit ? props.schema.name : '',
             fields: props.isEdit ? props.schema.fields : [{name: '', type: '', index: 1}]
@@ -59,7 +60,7 @@ function SchemaDialog(props) {
 
     const handleSubmit = () => {
         const data = {
-            isEdit: props.isEdit,
+            isEdit: !!props.isEdit,
             schemaId: props.isEdit ? props.schema.schemaId : '',
             owner: props.owner,
             projectTitle: props.projectTitle,
@@ -164,7 +165,7 @@ function SchemaDialog(props) {
                     variant="contained"
                     style={{backgroundColor: '#4EB6C4'}}
                 >
-                    {props.isEdit ? CREATE : SAVE}
+                    {props.isEdit ? SAVE : CREATE}
                 </Button>
             </DialogActions>
         </Dialog>

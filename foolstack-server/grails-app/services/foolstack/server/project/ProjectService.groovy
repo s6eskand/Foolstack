@@ -381,13 +381,19 @@ class ProjectService {
         String username = body.owner
         String projectTitle = body.projectTitle
         boolean isEdit = body.isEdit
+        String schemaId = ''
+        if (isEdit) {
+            schemaId = body.schemaId
+        } else {
+            schemaId = UUID.randomUUID().toString()
+        }
 
         User user = User.findByUsername(username)
         Project project = Project.findByProjectTitle(projectTitle)
 
         Schema schema = new Schema(
                 projectId: project.projectId,
-                schemaId: isEdit ? body.schemaId : UUID.randomUUID().toString(),
+                schemaId: schemaId,
                 name: body.name,
                 fields: body.fields,
         )
@@ -396,7 +402,7 @@ class ProjectService {
             Set<Schema> schemas = new HashSet<>()
 
             for (Schema s : project.schemas) {
-                if (s.schemaId == body.schemaId) {
+                if (s.schemaId == schemaId) {
                     schemas.add(schema)
                 } else {
                     schemas.add(s)

@@ -12,7 +12,6 @@ import {
     Code,
     Settings,
     Storage,
-    Dvr,
 } from "@material-ui/icons";
 
 function ProjectSideNav(props) {

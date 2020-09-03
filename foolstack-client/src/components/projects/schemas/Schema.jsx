@@ -1,8 +1,7 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
 // material components
 import {
-    Typography,
     IconButton,
 } from "@material-ui/core";
 
@@ -15,6 +14,7 @@ import {
 import styles from './Schema.module.css';
 
 function Schema(props) {
+    const [uuid, setUuid] = useState('')
 
     function dynamicSort(property) {
         return function (a, b) {
@@ -32,13 +32,17 @@ function Schema(props) {
     }
 
     return (
+        <>
         <div className={styles.schema}>
-            <h2 className={styles.title}>{props.schema.name}</h2>
+            <div className={styles.mainContent}>
+                <h2 className={styles.title}>{props.schema.name}</h2>
+            </div>
             <hr className={styles.horizontalRule} />
             {props.schema.fields.sort(dynamicSort('index')).map(field => (
                 <p className={styles.field}><b>{field.name}</b>: {field.type}</p>
             ))}
         </div>
+        </>
     )
 }
 

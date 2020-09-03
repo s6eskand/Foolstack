@@ -118,10 +118,8 @@ function ProjectView(props) {
                 languages={props.project.languages}
             />
             <SchemaDialog
-                isEdit={false}
                 owner={props.project.owner}
                 projectTitle={props.project.projectTitle}
-                schemas={props.project.schemas}
                 handleClose={handleSchemaDialogClose}
                 open={state.isSchemaDialogOpen}
                 createSchema={props.createOrEditSchema}
@@ -166,6 +164,9 @@ function ProjectView(props) {
                 value={state.value}
                 project={props.project}
                 createSchema={props.createOrEditSchema}
+                handleSchemaOpen={handleSchemaDialogOpen}
+                handleSchemaClose={handleSchemaDialogClose}
+                isSchemaDialogOpen={state.isSchemaDialogOpen}
             />
         </div>
         </>

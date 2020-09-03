@@ -33,7 +33,7 @@ function ProjectCode(props) {
             handleClose={props.handleReadMeClose}
             open={props.isReadMeOpen}
         />
-        <div style={{marginLeft: props.marginLeft}} hidden={props.index !== props.value}>
+        <div hidden={props.index !== props.value}>
             <div className="container">
                 <div className={styles.root}>
                     {props.project.codeFiles.length > 0 ?
