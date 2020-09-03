@@ -52,7 +52,7 @@ class Navbar extends React.Component {
                     fullScreen={this.props.fullScreen}
                 />
                 <nav className="nav">
-                    <img src={logo} className="logo" alt="foolstack-logo"/>
+                    <img onClick={() => this.props.history.push('/')} src={logo} className="logo" alt="foolstack-logo"/>
                     <div className="container">
                         <ul className="nav-links">
                             <li className="nav-link-1">

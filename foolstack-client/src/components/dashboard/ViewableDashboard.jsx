@@ -4,10 +4,11 @@ import Dashboard from "./Dashboard";
 import NotFound from "../../base/NotFound";
 
 import {useParams} from 'react-router-dom'
+
 // redux
 import withShipment from "../../withShipment";
 import {usersSelector} from '../../redux/selectors/account';
-import {listAllUsers,} from "../../redux/actions/account";
+import {listAllUsers} from "../../redux/actions/account";
 
 const ViewableDashboard = (props) => {
     const { username } = useParams()

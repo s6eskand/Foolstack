@@ -14,7 +14,8 @@ class ProjectController {
             create: 'POST',
             readme: 'POST',
             addCode: 'POST',
-            editCode: 'POST'
+            editCode: 'POST',
+            schema: 'POST',
     ]
     static responseFormats = ['json']
 
@@ -61,6 +62,11 @@ class ProjectController {
     @Secured('ROLE_USER')
     def editCode() {
         respond projectService.editCodeFile(request.JSON)
+    }
+
+    @Secured('ROLE_USER')
+    def schema() {
+        respond projectService.createSchema(request.JSON)
     }
 
 }

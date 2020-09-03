@@ -5,7 +5,6 @@ import foolstack.server.auth.User
 import grails.converters.JSON
 import grails.gorm.transactions.Transactional
 import groovy.json.JsonSlurper
-import org.grails.web.json.JSONElement
 
 @Transactional
 class ProjectService {
@@ -224,6 +223,7 @@ class ProjectService {
                     newProject.pullRequests = pullRequests
                     newProject.services = new HashSet<Service>()
                     newProject.codeFiles = new HashSet<Code>()
+                    newProject.schemas = new HashSet<Schema>()
                     newProject.canEdit = canEdit
                     newProject.save(flush: true, failOnError: true)
                 }
@@ -272,6 +272,7 @@ class ProjectService {
                     newProject.pullRequests = new HashSet<PullRequest>()
                     newProject.services = new HashSet<Service>()
                     newProject.codeFiles = new HashSet<Code>()
+                    newProject.schemas = new HashSet<Schema>()
                     newProject.canEdit = canEdit
                     newProject.save(flush: true, failOnError: true)
                 }
@@ -368,6 +369,59 @@ class ProjectService {
         Project.withTransaction {
             project.codeFiles = codeFiles
             project.save(flush: true, failOnError: true)
+        }
+
+        updateUserProjects(user, project, projectTitle)
+        return project
+
+    }
+
+    def createSchema(Object body) {
+
+        String username = body.owner
+        String projectTitle = body.projectTitle
+        boolean isEdit = body.isEdit
+        String schemaId = ''
+        if (isEdit) {
+            schemaId = body.schemaId
+        } else {
+            schemaId = UUID.randomUUID().toString()
+        }
+
+        User user = User.findByUsername(username)
+        Project project = Project.findByProjectTitle(projectTitle)
+
+        Schema schema = new Schema(
+                projectId: project.projectId,
+                schemaId: schemaId,
+                name: body.name,
+                fields: body.fields,
+        )
+
+        if (isEdit) {
+            Set<Schema> schemas = new HashSet<>()
+
+            for (Schema s : project.schemas) {
+                if (s.schemaId == schemaId) {
+                    schemas.add(schema)
+                } else {
+                    schemas.add(s)
+                }
+            }
+
+            Project.withTransaction {
+                project.schemas = schemas
+                project.save(flush: true, failOnError: true)
+            }
+
+        } else {
+            Set<Schema> schemas = project.schemas
+            schemas.add(schema)
+
+            Project.withTransaction {
+                project.schemas = schemas
+                project.save(flush: true, failOnError: true)
+            }
         }
 
         updateUserProjects(user, project, projectTitle)

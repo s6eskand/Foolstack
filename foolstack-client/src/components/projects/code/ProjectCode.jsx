@@ -6,20 +6,15 @@ import {githubGist} from "react-syntax-highlighter/dist/cjs/styles/hljs";
 // custom components
 import CodeFile from "./CodeFile";
 import EmptyProjectContentSection from "../EmptyProjectContentSection";
-
-// material components
-import {
-} from "@material-ui/core";
+import CreateReadmeDialog from "../actions/CreateReadmeDialog";
 
 // styling
 import styles from './ProjectCode.module.css';
 
-// image
-import empty from '../../../media/images/create-project.png';
-
 // constants
 import {
-    NO_CODE_FILES_TITLE
+    NO_README,
+    EDIT_README,
 } from "./constants";
 
 function ProjectCode(props) {
@@ -28,12 +23,23 @@ function ProjectCode(props) {
     })
 
     return (
-        <div style={{marginLeft: props.marginLeft}} hidden={props.index !== props.value}>
+        <>
+        <CreateReadmeDialog
+            createReadme={props.createReadme}
+            content={props.project.readMe}
+            isEdit={true}
+            owner={props.project.owner}
+            projectTitle={props.project.projectTitle}
+            handleClose={props.handleReadMeClose}
+            open={props.isReadMeOpen}
+        />
+        <div hidden={props.index !== props.value}>
             <div className="container">
                 <div className={styles.root}>
                     {props.project.codeFiles.length > 0 ?
                         props.project.codeFiles.map(code => (
                               <CodeFile
+                                  user={props.user}
                                   editCode={props.editCode}
                                   owner={props.project.owner}
                                   projectTitle={props.project.projectTitle}
@@ -45,17 +51,21 @@ function ProjectCode(props) {
                         <EmptyProjectContentSection />
                     }
                     {props.project.readMe ?
+                        <>
                         <div className={styles.markdownDisplay}>
                             <Markdown>
                                 {props.project.readMe}
                             </Markdown>
                         </div>
+                        {Object.keys(props.user).length > 0 ? <button onClick={props.handleReadMeOpen} className={styles.editButton}>{EDIT_README}</button> : null}
+                        </>
                         :
                         null
                     }
                 </div>
             </div>
         </div>
+        </>
     )
 }
 

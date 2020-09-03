@@ -51,9 +51,6 @@ function CodeFile(props) {
                 expandIcon={
                     <>
                         <ExpandMore />
-                        <IconButton onClick={handleOpenDialog} style={{width: '40px'}}>
-                            <Edit />
-                        </IconButton>
                     </>
                 }
             >

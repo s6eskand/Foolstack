@@ -6,6 +6,8 @@ import ProjectCode from "./code/ProjectCode";
 import CreateReadmeDialog from "./actions/CreateReadmeDialog";
 import CodeFileDialog from "./actions/CodeFileDialog";
 import ProjectToolbar from "./ProjectToolbar";
+import ProjectSchema from "./schemas/ProjectSchema";
+import SchemaDialog from "./actions/SchemaDialog";
 
 // material components
 import {
@@ -29,6 +31,7 @@ import {
     createReadme,
     createCodeFile,
     editCodeFile,
+    createOrEditSchema,
 } from "../../redux/actions/project";
 
 function ProjectView(props) {
@@ -38,6 +41,7 @@ function ProjectView(props) {
         value: 0,
         isCreateReadmeDialogOpen: false,
         isCodeFileDialogOpen: false,
+        isSchemaDialogOpen: false,
     })
 
     const handleCreateReadmeDialogOpen = () => {
@@ -68,10 +72,31 @@ function ProjectView(props) {
         })
     }
 
+    const handleSchemaDialogOpen = () => {
+        setState({
+            ...state,
+            isSchemaDialogOpen: true,
+        })
+    }
+
+    const handleSchemaDialogClose = () => {
+        setState({
+            ...state,
+            isSchemaDialogOpen: false
+        })
+    }
+
     const handleTabChange = (e, newValue) => {
         setState({
             ...state,
             value: newValue
+        })
+    }
+
+    const handleToggleSideNav = () => {
+        setState({
+            ...state,
+            openSideNav: !state.openSideNav
         })
     }
 
@@ -92,6 +117,13 @@ function ProjectView(props) {
                 handleClose={handleCodeFileDialogClose}
                 languages={props.project.languages}
             />
+            <SchemaDialog
+                owner={props.project.owner}
+                projectTitle={props.project.projectTitle}
+                handleClose={handleSchemaDialogClose}
+                open={state.isSchemaDialogOpen}
+                createSchema={props.createOrEditSchema}
+            />
         <div>
             <ProjectSideNav
                 open={state.openSideNav}
@@ -101,6 +133,7 @@ function ProjectView(props) {
             />
             <div>
                 <ProjectToolbar
+                    handleToggleSideNav={handleToggleSideNav}
                     user={props.userInfo}
                     openSideNav={state.openSideNav}
                     isMobile={isMobile}
@@ -108,15 +141,32 @@ function ProjectView(props) {
                     canEdit={props.canEdit}
                     handleCodeFileOpen={handleCodeFileDialogOpen}
                     handleCreateReadmeOpen={handleCreateReadmeDialogOpen}
+                    handleSchemaOpen={handleSchemaDialogOpen}
                 />
             </div>
             <ProjectCode
+                createReadme={props.createReadme}
+                user={props.userInfo}
                 marginLeft={state.openSideNav ? '170px' : '10px'}
                 index={0}
                 value={state.value}
                 project={props.project}
                 handleCodeFileDialogClose={handleCodeFileDialogClose}
                 editCode={props.editCodeFile}
+                handleReadMeClose={handleCreateReadmeDialogClose}
+                handleReadMeOpen={handleCreateReadmeDialogOpen}
+                isReadMeOpen={state.isCreateReadmeDialogOpen}
+            />
+            <ProjectSchema
+                user={props.userInfo}
+                marginLeft={state.openSideNav ? '170px' : '10px'}
+                index={1}
+                value={state.value}
+                project={props.project}
+                createSchema={props.createOrEditSchema}
+                handleSchemaOpen={handleSchemaDialogOpen}
+                handleSchemaClose={handleSchemaDialogClose}
+                isSchemaDialogOpen={state.isSchemaDialogOpen}
             />
         </div>
         </>
@@ -132,6 +182,7 @@ const actionCreators = {
     createReadme,
     createCodeFile,
     editCodeFile,
+    createOrEditSchema,
 };
 
 export default withShipment({
