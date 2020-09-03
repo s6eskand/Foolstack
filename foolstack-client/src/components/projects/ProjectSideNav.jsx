@@ -10,7 +10,6 @@ import {
 // material icons
 import {
     Code,
-    Spellcheck,
     Settings,
     Storage,
     Dvr,
@@ -34,7 +33,6 @@ function ProjectSideNav(props) {
             >
                 <Tab icon={<Code />} label="Sample Code" />
                 <Tab icon={<Storage />} label="Database Info" />
-                <Tab icon={<Spellcheck />} label="Documentation" />
                 {props.canEdit ? <Tab icon={<Settings />} label="Settings" /> : null}
             </Tabs>
         </Drawer>

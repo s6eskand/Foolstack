@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import Markdown from "markdown-to-jsx";
 
 // styling
@@ -39,6 +39,12 @@ function CreateReadmeDialog(props) {
     const [content, setContent] = useState('')
     const [value, setValue] = useState(0);
 
+    useEffect(() => {
+        if (props.isEdit) {
+            setContent(props.content ? props.content : '')
+        }
+    }, [])
+
     const handleTabChange = (e, newValue) => {
         setValue(newValue)
     }
@@ -48,7 +54,7 @@ function CreateReadmeDialog(props) {
     }
 
     const handleClose = () => {
-        setContent('');
+        setContent(props.isEdit ? props.content : '');
         props.handleClose();
     }
 

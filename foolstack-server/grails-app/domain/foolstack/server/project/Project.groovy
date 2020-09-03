@@ -33,6 +33,7 @@ class Project {
     Set<PullRequest> pullRequests
     Set<Service> services
     Set<Code> codeFiles
+    Set<Schema> schemas
     Set<String> canEdit
 
     static embedded = [
@@ -42,6 +43,7 @@ class Project {
             'pullRequests',
             'languages',
             'codeFiles',
+            'schemas'
     ]
 
     static constraints = {

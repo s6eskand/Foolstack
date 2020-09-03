@@ -11,6 +11,12 @@
     align-items: center;
 }
 
+.editButton {
+    margin-top: 10px;
+    border: none;
+    outline: none;
+}
+
 .markdownDisplay {
     width: auto;
     overflow-x: scroll;

@@ -25,7 +25,6 @@ import {ADD_CONTENT_TITLE, COMMIT_TITLE, ISSUE_TITLE, PULL_REQUEST_TITLE} from "
 
 function ProjectToolbar(props) {
     const [state, setState] = useState({
-        openSideNav: true,
         anchorEl: null,
         isCommitMenuOpen: false,
         isIssueMenuOpen: false,
@@ -39,6 +38,15 @@ function ProjectToolbar(props) {
             openSideNav: !props.isMobile
         })
     }, [props.isMobile])
+
+    const openAction = (openFunc) => () => {
+        setState({
+            ...state,
+            anchorEl: null,
+            isActionsMenuOpen: false,
+        })
+        openFunc()
+    }
 
     const handleCommitMenuOpen = (e) => {
         setState({
@@ -101,13 +109,6 @@ function ProjectToolbar(props) {
             ...state,
             isActionsMenuOpen: false,
             anchorEl: null
-        })
-    }
-
-    const handleToggleSideNav = () => {
-        setState({
-            ...state,
-            openSideNav: !state.openSideNav
         })
     }
 
@@ -223,11 +224,10 @@ function ProjectToolbar(props) {
             open={state.isActionsMenuOpen}
             onClose={handleActionsMenuClose}
         >
-            <MenuItem onClick={props.handleCreateReadmeOpen} disabled={props.project.readMe ? props.project.readMe.length > 0 : false}>Create project readme</MenuItem>
-            <MenuItem onClick={props.handleCodeFileOpen}>Add code file</MenuItem>
+            <MenuItem onClick={openAction(props.handleCreateReadmeOpen)} disabled={props.project.readMe ? props.project.readMe.length > 0 : false}>Create project readme</MenuItem>
+            <MenuItem onClick={openAction(props.handleCodeFileOpen)}>Add code file</MenuItem>
             <MenuItem>Add service/api endpoint</MenuItem>
-            <MenuItem>Add database schema</MenuItem>
-            <MenuItem>Add documentation file</MenuItem>
+            <MenuItem onClick={openAction(props.handleSchemaOpen)}>Add database schema</MenuItem>
         </Menu>
     )
 
@@ -236,9 +236,9 @@ function ProjectToolbar(props) {
         <Toolbar style={{
             backgroundColor: '#FED893',
         }}>
-            <div style={{marginLeft: state.openSideNav ? '170px' : '100px', display: props.isMobile ? '' : 'flex'}}>
+            <div style={{marginLeft: props.openSideNav ? '170px' : '100px', display: props.isMobile ? '' : 'flex'}}>
                 <div style={{display: 'flex'}}>
-                    <IconButton style={{width: '40px'}} onClick={handleToggleSideNav}>
+                    <IconButton style={{width: '40px'}} onClick={props.handleToggleSideNav}>
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" component="div" style={{marginTop: '3px', marginRight: '10px'}}>
