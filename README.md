@@ -3,7 +3,7 @@
 
 Foolstack is an interactive software architechture design, and documentation software.
 
-Foolstack allows you to import projects from Github, and Bitbucket (or simply create one on your own), giving you insights to project Languages, and technology stack breakdown, issues, commit history and much more.
+Foolstack allows you to import projects from Github (or simply create one on your own), giving you insights to project Languages, and technology stack breakdown, issues, commit history and much more.
 
 Each project also contains documentation on API endpoints (if there are any), Database design, Frontend implementation and practices, and Backend services
 
