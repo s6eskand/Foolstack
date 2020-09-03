@@ -32,6 +32,7 @@ import {
     createCodeFile,
     editCodeFile,
     createOrEditSchema,
+    deleteSchema,
 } from "../../redux/actions/project";
 
 function ProjectView(props) {
@@ -147,7 +148,6 @@ function ProjectView(props) {
             <ProjectCode
                 createReadme={props.createReadme}
                 user={props.userInfo}
-                marginLeft={state.openSideNav ? '170px' : '10px'}
                 index={0}
                 value={state.value}
                 project={props.project}
@@ -158,12 +158,12 @@ function ProjectView(props) {
                 isReadMeOpen={state.isCreateReadmeDialogOpen}
             />
             <ProjectSchema
+                deleteSchema={props.deleteSchema}
+                createSchema={props.createOrEditSchema}
                 user={props.userInfo}
-                marginLeft={state.openSideNav ? '170px' : '10px'}
                 index={1}
                 value={state.value}
                 project={props.project}
-                createSchema={props.createOrEditSchema}
                 handleSchemaOpen={handleSchemaDialogOpen}
                 handleSchemaClose={handleSchemaDialogClose}
                 isSchemaDialogOpen={state.isSchemaDialogOpen}
@@ -183,6 +183,7 @@ const actionCreators = {
     createCodeFile,
     editCodeFile,
     createOrEditSchema,
+    deleteSchema,
 };
 
 export default withShipment({

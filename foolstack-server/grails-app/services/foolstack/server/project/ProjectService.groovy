@@ -429,4 +429,30 @@ class ProjectService {
 
     }
 
+    def deleteSchema(Object body) {
+
+        String username = body.username
+        String projectTitle = body.projectTitle
+        String schemaId = body.schemaId
+
+        User user = User.findByUsername(username)
+        Project project = Project.findByProjectTitle(projectTitle)
+
+        Set<Schema> schemas = new HashSet<>()
+        for (Schema s : project.schemas) {
+            if (s.schemaId != schemaId) {
+                schemas.add(s)
+            }
+        }
+
+        Project.withTransaction {
+            project.schemas = schemas
+            project.save(flush: true, failOnError: true)
+        }
+
+        updateUserProjects(user, project, projectTitle)
+        return project
+
+    }
+
 }

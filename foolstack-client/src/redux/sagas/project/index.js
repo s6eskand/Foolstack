@@ -8,7 +8,7 @@ import axios from 'axios';
 // constants for actions
 import {
     CREATE_CODE_FILE, CREATE_OR_EDIT_SCHEMA,
-    CREATE_PROJECT, CREATE_README, EDIT_CODE_FILE,
+    CREATE_PROJECT, CREATE_README, DELETE_SCHEMA, EDIT_CODE_FILE,
     GET_GITHUB_REPOS, LIST_ALL_PROJECTS,
     SEARCH_USERS,
 } from "../../constants/project";
@@ -182,6 +182,20 @@ function* createOrEditSchema(action) {
     }
 }
 
+function* deleteSchema(action) {
+    yield put(setLoadingStatus(true))
+    try {
+        const response = yield call(() => postAuthRequest(SERVER_ENDPOINTS.DELETE_SCHEMA, action.schema));
+        if (response.status === 200) {
+            yield put(updateProjects(response.data))
+            yield put(setLoadingStatus(false))
+        }
+    } catch (e) {
+        yield put(setLoadingStatus(false))
+        throw new Error(e)
+    }
+}
+
 export default function* projectSagas() {
     yield takeLatest(SEARCH_USERS, searchUsers);
     yield takeLatest(GET_GITHUB_REPOS, getGithubRepos);
@@ -191,4 +205,5 @@ export default function* projectSagas() {
     yield takeLatest(CREATE_CODE_FILE, createCodeFile);
     yield takeLatest(EDIT_CODE_FILE, editCodeFile);
     yield takeLatest(CREATE_OR_EDIT_SCHEMA, createOrEditSchema);
+    yield takeLatest(DELETE_SCHEMA, deleteSchema);
 }

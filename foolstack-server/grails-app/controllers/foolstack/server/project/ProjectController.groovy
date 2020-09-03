@@ -16,6 +16,7 @@ class ProjectController {
             addCode: 'POST',
             editCode: 'POST',
             schema: 'POST',
+            deleteSchema: 'POST'
     ]
     static responseFormats = ['json']
 
@@ -67,6 +68,11 @@ class ProjectController {
     @Secured('ROLE_USER')
     def schema() {
         respond projectService.createSchema(request.JSON)
+    }
+
+    @Secured('ROLE_USER')
+    def deleteSchema() {
+        respond projectService.deleteSchema(request.JSON)
     }
 
 }

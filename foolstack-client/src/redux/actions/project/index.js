@@ -10,7 +10,7 @@ import {
     CREATE_README,
     UPDATE_PROJECTS,
     CREATE_CODE_FILE,
-    EDIT_CODE_FILE, CREATE_OR_EDIT_SCHEMA,
+    EDIT_CODE_FILE, CREATE_OR_EDIT_SCHEMA, DELETE_SCHEMA,
 } from "../../constants/project";
 
 export const searchUsers = (searchValue) => ({
@@ -81,4 +81,9 @@ export const createOrEditSchema = (schema, close) => ({
     type: CREATE_OR_EDIT_SCHEMA,
     schema,
     close,
+});
+
+export const deleteSchema = (schema) => ({
+    type: DELETE_SCHEMA,
+    schema,
 });

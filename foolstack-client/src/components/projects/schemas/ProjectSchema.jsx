@@ -10,7 +10,6 @@ import SchemaDialog from "../actions/SchemaDialog";
 import styles from './ProjectSchema.module.css'
 
 function ProjectSchema(props) {
-    const [index, setIndex] = useState(0)
 
     return (
         <>
@@ -21,12 +20,9 @@ function ProjectSchema(props) {
                         props.project.schemas.map((schema) => {
                             return (
                             <Schema
-                                // handleEdit={handleEdit}
+                                deleteSchema={props.deleteSchema}
+                                createSchema={props.createSchema}
                                 user={props.user}
-                                handleSchemaOpen={props.handleSchemaOpen}
-                                handleSchemaClose={props.handleSchemaClose}
-                                isSchemaOpen={props.isSchemaDialogOpen}
-                                schemas={props.project.schemas}
                                 schema={schema}
                                 owner={props.project.owner}
                                 projectTitle={props.project.projectTitle}
