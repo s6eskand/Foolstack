@@ -2,7 +2,7 @@ import {
     STORE_SEARCH_RESULTS,
     SEARCH_LOADING,
     STORE_GITHUB_REPOS,
-    STORE_ALL_PROJECTS, UPDATE_PROJECTS,
+    STORE_ALL_PROJECTS, UPDATE_PROJECTS, UPDATE_PROJECTS_AFTER_DELETE,
 } from "../../constants/project";
 import {
     PROJECT_KEY
@@ -23,6 +23,16 @@ const updateProject = (project, projectList) => {
         if (project.projectTitle === projectList[i].projectTitle) {
             newList = [...newList, project]
         } else {
+            newList = [...newList, projectList[i]]
+        }
+    }
+    return newList
+}
+
+const updateAfterDelete = (project, projectList) => {
+    let newList = [];
+    for (let i = 0; i < projectList.length; i++) {
+        if (project.projectTitle !== projectList[i].projectTitle) {
             newList = [...newList, projectList[i]]
         }
     }
@@ -55,6 +65,11 @@ const project = (state = initialState, action) => {
             return {
                 ...state,
                 projects: updateProject(action.project, state.projects)
+            }
+        case UPDATE_PROJECTS_AFTER_DELETE:
+            return {
+                ...state,
+                projects: updateAfterDelete(action.project, state.projects)
             }
         default:
             return state

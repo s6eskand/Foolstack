@@ -22,7 +22,7 @@ function ViewableProject(props) {
 
     useEffect(() => {
         props.listAllProjects();
-    }, [props.projects]);
+    }, []);
 
     const findProjectIndex = (projects) => {
         if (projects) {

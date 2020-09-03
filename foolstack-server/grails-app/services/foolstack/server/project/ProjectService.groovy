@@ -376,6 +376,32 @@ class ProjectService {
 
     }
 
+    def deleteCode(Object body) {
+
+        String codeId = body.codeId
+        String username = body.owner
+        String projectTitle = body.projectTitle
+        User user = User.findByUsername(username)
+        Project project = Project.findByProjectTitle(projectTitle)
+
+        Set<Code> codeFiles = new HashSet<>()
+
+        for (Code c : project.codeFiles) {
+            if (c.codeId != codeId) {
+                codeFiles.add(c)
+            }
+        }
+
+        Project.withTransaction {
+            project.codeFiles = codeFiles
+            project.save(flush: true, failOnError: true)
+        }
+
+        updateUserProjects(user, project, projectTitle)
+        return project
+
+    }
+
     def createSchema(Object body) {
 
         String username = body.owner
@@ -426,6 +452,143 @@ class ProjectService {
 
         updateUserProjects(user, project, projectTitle)
         return project
+
+    }
+
+    def deleteSchema(Object body) {
+
+        String username = body.username
+        String projectTitle = body.projectTitle
+        String schemaId = body.schemaId
+
+        User user = User.findByUsername(username)
+        Project project = Project.findByProjectTitle(projectTitle)
+
+        Set<Schema> schemas = new HashSet<>()
+        for (Schema s : project.schemas) {
+            if (s.schemaId != schemaId) {
+                schemas.add(s)
+            }
+        }
+
+        Project.withTransaction {
+            project.schemas = schemas
+            project.save(flush: true, failOnError: true)
+        }
+
+        updateUserProjects(user, project, projectTitle)
+        return project
+
+    }
+
+    def createOrEditService(Object body) {
+
+        String username = body.owner
+        String projectTitle = body.projectTitle
+        boolean isEdit = body.isEdit
+        String serviceId = ''
+        if (isEdit) {
+            serviceId = body.serviceId
+        } else {
+            serviceId = UUID.randomUUID().toString()
+        }
+
+        User user = User.findByUsername(username)
+        Project project = Project.findByProjectTitle(projectTitle)
+
+        Map<String, String> sampleResponse = new HashMap<>()
+        sampleResponse.put('responseBody', body.sampleResponse ? body.sampleResponse.responseBody : '')
+        sampleResponse.put('language', body.sampleResponse ? body.sampleResponse.language : '')
+
+        Service service = new Service(
+                projectId: project.projectId,
+                serviceId: serviceId,
+                name: body.name,
+                requestMethod: body.requestMethod,
+                path: body.path,
+                queryParams: body.queryParams ? body.queryParams : new HashSet<Object>(),
+                sampleRequests: body.sampleRequests ? body.sampleRequests : new HashSet<Object>(),
+                sampleResponse: body.sampleResponse ? sampleResponse : new HashMap<String, String>(),
+                responseFields: body.responseFields ? body.responseFields : new HashSet<Object>(),
+        )
+
+        if (isEdit) {
+            Set<Service> services = new HashSet<>()
+
+            for (Service s : project.services) {
+                if (s.serviceId == serviceId) {
+                    services.add(service)
+                } else {
+                    services.add(s)
+                }
+            }
+
+            Project.withTransaction {
+                project.services = services
+                project.save(flush: true, failOnError: true)
+            }
+
+        } else {
+            Set<Service> services = project.services
+            services.add(service)
+
+            Project.withTransaction {
+                project.services = services
+                project.save(flush: true, failOnError: true)
+            }
+        }
+
+        updateUserProjects(user, project, projectTitle)
+        return project
+    }
+
+    def deleteService(Object body) {
+
+        String username = body.username
+        String projectTitle = body.projectTitle
+        String serviceId = body.serviceId
+
+        User user = User.findByUsername(username)
+        Project project = Project.findByProjectTitle(projectTitle)
+
+        Set<Service> services = new HashSet<>()
+        for (Service s : project.services) {
+            if (s.serviceId != serviceId) {
+                services.add(s)
+            }
+        }
+
+        Project.withTransaction {
+            project.services = services
+            project.save(flush: true, failOnError: true)
+        }
+
+        updateUserProjects(user, project, projectTitle)
+        return project
+
+    }
+
+    def deleteProject(Object body) {
+
+        String username = body.owner
+        String projectTitle = body.projectTitle
+        User user = User.findByUsername(username)
+        Project project = Project.findByProjectTitle(projectTitle)
+
+        Set<Project> projects = new HashSet<>()
+        for (Project p : user.projects) {
+            if (p.projectId != project.projectId) {
+                projects.add(p)
+            }
+        }
+
+        Project.withTransaction {
+            project.delete()
+        }
+
+        User.withTransaction {
+            user.save(flush: true, failOnError: true)
+        }
 
     }
 

@@ -1,7 +1,9 @@
 import React, {useState} from 'react';
 
 // custom components
-import CodeFileDialog from "../actions/CodeFileDialog";
+import EditCodeFileDialog from "../actions/EditCodeFileDialog";
+import SyntaxHighlighter from "react-syntax-highlighter";
+import {githubGist} from "react-syntax-highlighter/dist/cjs/styles/hljs";
 
 // material components
 import {
@@ -14,11 +16,9 @@ import {
 // material icons
 import {
     ExpandMore,
-    Edit
+    Edit,
+    Delete,
 } from "@material-ui/icons";
-
-import SyntaxHighlighter from "react-syntax-highlighter";
-import {githubGist} from "react-syntax-highlighter/dist/cjs/styles/hljs";
 
 function CodeFile(props) {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -31,11 +31,23 @@ function CodeFile(props) {
         setIsDialogOpen(false)
     }
 
+    const handleDelete = () => {
+
+        const data = {
+            owner: props.owner,
+            projectTitle: props.projectTitle,
+            codeId: props.code.codeId,
+        }
+
+        props.deleteCode(data, () => window.location.reload())
+        setTimeout(() => window.location.reload(), 1000)
+
+    }
+
     return (
         <>
-        <CodeFileDialog
+        <EditCodeFileDialog
             editCode={props.editCode}
-            isEdit={true}
             open={isDialogOpen}
             handleClose={handleCloseDialog}
             owner={props.owner}
@@ -46,11 +58,29 @@ function CodeFile(props) {
             language={props.code.language}
             languages={props.languages}
         />
-        <Accordion>
+        <Accordion
+            style={{
+                marginBottom: '20px',
+                border: '1px solid #4EB6C4',
+                boxShadow: 'none',
+                borderRadius: '4px'
+            }}
+        >
             <AccordionSummary
                 expandIcon={
                     <>
                         <ExpandMore />
+                        {Object.keys(props.user).length > 0 ?
+                            <>
+                            <IconButton style={{width: '40px'}} onClick={handleOpenDialog}>
+                                <Edit />
+                            </IconButton>
+                            <IconButton style={{width: '40px'}} onClick={handleDelete}>
+                                <Delete />
+                            </IconButton>
+                            </>
+                            : null
+                        }
                     </>
                 }
             >

@@ -10,7 +10,13 @@ import {
     CREATE_README,
     UPDATE_PROJECTS,
     CREATE_CODE_FILE,
-    EDIT_CODE_FILE, CREATE_OR_EDIT_SCHEMA,
+    EDIT_CODE_FILE,
+    CREATE_OR_EDIT_SCHEMA,
+    DELETE_SCHEMA,
+    CREATE_OR_EDIT_SERVICE,
+    DELETE_CODE_FILE,
+    DELETE_PROJECT,
+    UPDATE_PROJECTS_AFTER_DELETE, DELETE_SERVICE,
 } from "../../constants/project";
 
 export const searchUsers = (searchValue) => ({
@@ -81,4 +87,39 @@ export const createOrEditSchema = (schema, close) => ({
     type: CREATE_OR_EDIT_SCHEMA,
     schema,
     close,
+});
+
+export const deleteSchema = (schema, reload) => ({
+    type: DELETE_SCHEMA,
+    schema,
+    reload,
+});
+
+export const createOrEditService = (service, close) => ({
+    type: CREATE_OR_EDIT_SERVICE,
+    service,
+    close,
+});
+
+export const deleteService = (service, reload) => ({
+    type: DELETE_SERVICE,
+    service,
+    reload,
+})
+
+export const deleteCodeFile = (file, reload) => ({
+    type: DELETE_CODE_FILE,
+    file,
+    reload,
+});
+
+export const deleteProject = (project, reload) => ({
+    type: DELETE_PROJECT,
+    project,
+    reload,
+});
+
+export const updateProjectsAfterDelete = (project) => ({
+    type: UPDATE_PROJECTS_AFTER_DELETE,
+    project,
 });

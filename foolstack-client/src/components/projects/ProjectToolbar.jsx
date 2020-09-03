@@ -32,12 +32,6 @@ function ProjectToolbar(props) {
         isActionsMenuOpen: false,
     })
 
-    useEffect(() => {
-        setState({
-            ...state,
-            openSideNav: !props.isMobile
-        })
-    }, [props.isMobile])
 
     const openAction = (openFunc) => () => {
         setState({
@@ -226,7 +220,7 @@ function ProjectToolbar(props) {
         >
             <MenuItem onClick={openAction(props.handleCreateReadmeOpen)} disabled={props.project.readMe ? props.project.readMe.length > 0 : false}>Create project readme</MenuItem>
             <MenuItem onClick={openAction(props.handleCodeFileOpen)}>Add code file</MenuItem>
-            <MenuItem>Add service/api endpoint</MenuItem>
+            <MenuItem onClick={openAction(props.handleCreateServiceOpen)}>Add service/api endpoint</MenuItem>
             <MenuItem onClick={openAction(props.handleSchemaOpen)}>Add database schema</MenuItem>
         </Menu>
     )

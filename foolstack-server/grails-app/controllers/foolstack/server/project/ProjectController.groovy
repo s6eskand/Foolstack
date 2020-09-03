@@ -15,7 +15,12 @@ class ProjectController {
             readme: 'POST',
             addCode: 'POST',
             editCode: 'POST',
+            deleteCode: 'POST',
             schema: 'POST',
+            deleteSchema: 'POST',
+            service: 'POST',
+            deleteService: 'POST',
+            delete: 'POST'
     ]
     static responseFormats = ['json']
 
@@ -65,8 +70,33 @@ class ProjectController {
     }
 
     @Secured('ROLE_USER')
+    def deleteCode() {
+        respond projectService.deleteCode(request.JSON)
+    }
+
+    @Secured('ROLE_USER')
     def schema() {
         respond projectService.createSchema(request.JSON)
+    }
+
+    @Secured('ROLE_USER')
+    def deleteSchema() {
+        respond projectService.deleteSchema(request.JSON)
+    }
+
+    @Secured('ROLE_USER')
+    def service() {
+        respond projectService.createOrEditService(request.JSON)
+    }
+
+    @Secured('ROLE_USER')
+    def deleteService() {
+        respond projectService.deleteService(request.JSON)
+    }
+
+    @Secured('ROLE_USER')
+    def delete() {
+        respond projectService.deleteProject(request.JSON)
     }
 
 }

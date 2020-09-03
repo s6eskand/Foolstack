@@ -12,10 +12,12 @@ class Service {
 
     String projectId
     String serviceId
+    String name
     String path
-    boolean isRest = true
-    Set<Map<String, String>> sampleRequests
-    String sampleResponse
+    Set<Object> queryParams
+    Set<Object> sampleRequests
+    Map<String, String> sampleResponse
+    Set<Object> responseFields
     String requestMethod
 
     static constraints = {

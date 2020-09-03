@@ -1,39 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 
 // material components
 import {
-    Dialog,
-    DialogTitle,
-    DialogContentText,
-    DialogContent,
+    Button, Dialog,
     DialogActions,
-    Button,
-    TextField,
-    FormControl,
-    InputLabel,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    FormControl, IconButton,
+    InputLabel, MenuItem,
     Select,
-    MenuItem,
-    IconButton,
-    useMediaQuery
+    TextField, useMediaQuery
 } from "@material-ui/core";
 
-// material icons
-import {
-    Delete,
-    Add
-} from "@material-ui/icons";
-
 // constants
-import {
-    CREATE_SCHEMA_TITLE,
-    CREATE_SCHEMA_DESCRIPTION,
-    CANCEL,
-    SAVE,
-    CREATE,
-    DATA_TYPES,
-} from "./constants";
+import {CANCEL, CREATE, CREATE_SCHEMA_DESCRIPTION, CREATE_SCHEMA_TITLE, DATA_TYPES, SAVE} from "./constants";
 
-function SchemaDialog(props) {
+// material icons
+import {Add, Delete} from "@material-ui/icons";
+
+function EditSchemaDialog(props) {
     const fullScreen = useMediaQuery('(max-width:760px)');
     const [state, setState] = useState({
         name: '',
@@ -43,21 +29,24 @@ function SchemaDialog(props) {
     })
 
     useEffect(() => {
-
+        setState({
+            name: props.schema.name,
+            fields: props.schema.fields
+        })
     }, [])
 
     const handleClose = () => {
         setState({
-            name: '',
-            fields: [{name: '', type: '', index: 1}]
+            name: props.schema.name,
+            fields: props.schema.fields
         })
         props.handleClose();
     }
 
     const handleSubmit = () => {
         const data = {
-            isEdit: false,
-            schemaId: '',
+            isEdit: true,
+            schemaId: props.schema.schemaId,
             owner: props.owner,
             projectTitle: props.projectTitle,
             name: state.name,
@@ -97,6 +86,7 @@ function SchemaDialog(props) {
             fields,
         })
     }
+
 
     return (
         <Dialog open={props.open} fullScreen={fullScreen}>
@@ -161,7 +151,7 @@ function SchemaDialog(props) {
                     variant="contained"
                     style={{backgroundColor: '#4EB6C4'}}
                 >
-                    {CREATE}
+                    {props.isEdit ? SAVE : CREATE}
                 </Button>
             </DialogActions>
         </Dialog>
@@ -169,4 +159,4 @@ function SchemaDialog(props) {
 
 }
 
-export default SchemaDialog;
+export default EditSchemaDialog;

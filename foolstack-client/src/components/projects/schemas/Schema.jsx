@@ -1,5 +1,8 @@
 import React, {useEffect, useState} from 'react';
 
+// custom components
+import EditSchemaDialog from "../actions/EditSchemaDialog";
+
 // material components
 import {
     IconButton,
@@ -8,13 +11,14 @@ import {
 // material icons
 import {
     Edit,
+    Delete,
 } from "@material-ui/icons";
 
 // styling
 import styles from './Schema.module.css';
 
 function Schema(props) {
-    const [uuid, setUuid] = useState('')
+    const [isEditOpen, setIsEditOpen] = useState(false)
 
     function dynamicSort(property) {
         return function (a, b) {
@@ -31,11 +35,48 @@ function Schema(props) {
         }
     }
 
+    const handleOpenEdit = () => {
+        setIsEditOpen(true)
+    }
+
+    const handleCloseEdit = () => {
+        setIsEditOpen(false)
+    }
+
+    const handleDelete = () => {
+        const data = {
+            owner: props.owner,
+            projectTitle: props.projectTitle,
+            name: props.schema.name,
+            schemaId: props.schema.schemaId
+        }
+
+        props.deleteSchema(data, () => window.location.reload())
+        setTimeout(() => window.location.reload(), 1000)
+    }
+
     return (
         <>
+        <EditSchemaDialog
+            schema={props.schema}
+            owner={props.owner}
+            projectTitle={props.projectTitle}
+            handleClose={handleCloseEdit}
+            open={isEditOpen}
+            createSchema={props.createSchema}
+        />
         <div className={styles.schema}>
             <div className={styles.mainContent}>
                 <h2 className={styles.title}>{props.schema.name}</h2>
+                {Object.keys(props.user).length > 0 ?
+                    <>
+                    <IconButton onClick={handleOpenEdit} style={{width: '40px'}}>
+                        <Edit />
+                    </IconButton>
+                    <IconButton onClick={handleDelete} style={{width: '40px'}}>
+                        <Delete />
+                    </IconButton></> : null
+                }
             </div>
             <hr className={styles.horizontalRule} />
             {props.schema.fields.sort(dynamicSort('index')).map(field => (
