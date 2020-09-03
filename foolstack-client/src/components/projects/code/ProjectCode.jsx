@@ -11,12 +11,6 @@ import EmptyProjectContentSection from "../EmptyProjectContentSection";
 import {
 } from "@material-ui/core";
 
-// material icons
-import {
-    ExpandLess,
-    ExpandMore,
-} from "@material-ui/icons";
-
 // styling
 import styles from './ProjectCode.module.css';
 
@@ -40,22 +34,24 @@ function ProjectCode(props) {
                     {props.project.codeFiles.length > 0 ?
                         props.project.codeFiles.map(code => (
                               <CodeFile
+                                  editCode={props.editCode}
+                                  owner={props.project.owner}
+                                  projectTitle={props.project.projectTitle}
                                   code={code}
+                                  languages={props.project.languages}
                               />
                         ))
                         :
-                        <>
                         <EmptyProjectContentSection />
-                        {props.project.readMe ?
-                            <div className={styles.markdownDisplay}>
-                                <Markdown>
-                                    {props.project.readMe}
-                                </Markdown>
-                            </div>
-                            :
-                            null
-                        }
-                        </>
+                    }
+                    {props.project.readMe ?
+                        <div className={styles.markdownDisplay}>
+                            <Markdown>
+                                {props.project.readMe}
+                            </Markdown>
+                        </div>
+                        :
+                        null
                     }
                 </div>
             </div>

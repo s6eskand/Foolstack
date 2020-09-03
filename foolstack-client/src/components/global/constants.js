@@ -19,4 +19,6 @@ export const SERVER_ENDPOINTS = {
     CREATE_PROJECT: `${BASE_URL}/project/create`,
     LIST_ALL_PROJECTS: `${BASE_URL}/project/list`,
     CREATE_README: `${BASE_URL}/project/readme`,
+    CREATE_CODE_FILE: `${BASE_URL}/project/addCode`,
+    EDIT_CODE_FILE: `${BASE_URL}/project/editCode`,
 }

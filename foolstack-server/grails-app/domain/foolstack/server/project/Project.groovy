@@ -41,7 +41,7 @@ class Project {
             'issues',
             'pullRequests',
             'languages',
-            'code',
+            'codeFiles',
     ]
 
     static constraints = {

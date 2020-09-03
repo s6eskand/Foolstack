@@ -10,6 +10,22 @@ import org.grails.web.json.JSONElement
 @Transactional
 class ProjectService {
 
+    def updateUserProjects(User user, Project project, String projectTitle) {
+        Set<Project> projects = new HashSet<>()
+        for (Project p : user.projects) {
+            if (p.projectTitle == projectTitle) {
+                projects.add(project)
+            } else {
+                projects.add(p)
+            }
+        }
+
+        User.withTransaction {
+            user.projects = projects
+            user.save(flush: true, failOnError: true)
+        }
+    }
+
     def makeGithubRequest(URL url) {
 
         // open HTTP connection
@@ -291,20 +307,71 @@ class ProjectService {
             project.save(flush: true, failOnError: true)
         }
 
-        Set<Project> projects = new HashSet<>()
+        updateUserProjects(user, project, projectTitle)
+        return project
 
-        for (Project p : user.projects) {
-            if (p.projectTitle == projectTitle) {
-                projects.add(project)
+    }
+
+    def createFile(Object body) {
+
+        String username = body.owner
+        String projectTitle = body.projectTitle
+        User user = User.findByUsername(username)
+        Project project = Project.findByProjectTitle(projectTitle)
+
+        Set<Code> codeFiles = project.codeFiles
+        Code code = new Code(
+                projectId: project.projectId,
+                codeId: UUID.randomUUID().toString(),
+                name: body.name,
+                language: body.language,
+                content: body.content
+        )
+
+        codeFiles.add(code)
+
+        Project.withTransaction {
+            project.codeFiles = codeFiles
+            project.save(flush: true, failOnError: true)
+        }
+
+        updateUserProjects(user, project, projectTitle)
+        return project
+
+    }
+
+    def editCodeFile(Object body) {
+
+        String codeId = body.codeId
+        String username = body.owner
+        String projectTitle = body.projectTitle
+        User user = User.findByUsername(username)
+        Project project = Project.findByProjectTitle(projectTitle)
+
+        Set<Code> codeFiles = new HashSet<>()
+        Code code = new Code(
+                projectId: project.projectId,
+                codeId: UUID.randomUUID().toString(),
+                name: body.name,
+                language: body.language,
+                content: body.content
+        )
+
+        for (Code c : project.codeFiles) {
+            if (c.codeId == codeId) {
+                codeFiles.add(code)
             } else {
-                projects.add(p)
+                codeFiles.add(c)
             }
         }
 
-        User.withTransaction {
-            user.projects = projects
-            user.save(flush: true, failOnError: true)
+        Project.withTransaction {
+            project.codeFiles = codeFiles
+            project.save(flush: true, failOnError: true)
         }
+
+        updateUserProjects(user, project, projectTitle)
+        return project
 
     }
 

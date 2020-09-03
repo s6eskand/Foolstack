@@ -4,7 +4,13 @@ import {
     SEARCH_USERS,
     GET_GITHUB_REPOS,
     STORE_GITHUB_REPOS,
-    CREATE_PROJECT, LIST_ALL_PROJECTS, STORE_ALL_PROJECTS, CREATE_README, UPDATE_PROJECTS,
+    CREATE_PROJECT,
+    LIST_ALL_PROJECTS,
+    STORE_ALL_PROJECTS,
+    CREATE_README,
+    UPDATE_PROJECTS,
+    CREATE_CODE_FILE,
+    EDIT_CODE_FILE,
 } from "../../constants/project";
 
 export const searchUsers = (searchValue) => ({
@@ -57,4 +63,16 @@ export const createReadme = (readme, close) => ({
 export const updateProjects = (project) => ({
     type: UPDATE_PROJECTS,
     project,
+});
+
+export const createCodeFile = (file, close) => ({
+    type: CREATE_CODE_FILE,
+    file,
+    close,
+});
+
+export const editCodeFile = (file, close) => ({
+    type: EDIT_CODE_FILE,
+    file,
+    close,
 });

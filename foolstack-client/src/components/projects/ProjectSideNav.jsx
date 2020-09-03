@@ -33,7 +33,6 @@ function ProjectSideNav(props) {
                 variant="scrollable"
             >
                 <Tab icon={<Code />} label="Sample Code" />
-                <Tab icon={<Dvr />} label="Services" />
                 <Tab icon={<Storage />} label="Database Info" />
                 <Tab icon={<Spellcheck />} label="Documentation" />
                 {props.canEdit ? <Tab icon={<Settings />} label="Settings" /> : null}

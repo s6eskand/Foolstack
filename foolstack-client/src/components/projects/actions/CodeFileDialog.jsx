@@ -39,7 +39,7 @@ function CodeFileDialog(props) {
             content: props.content ? props.content : '',
             name: props.name ? props.name : ''
         })
-    })
+    }, [])
 
     const handleChange = (e) => {
         setState({
@@ -50,9 +50,9 @@ function CodeFileDialog(props) {
 
     const handleClose = () => {
         setState({
-            content: '',
-            name: '',
-            language: ''
+            language: props.isEdit ? props.language : '',
+            content: props.isEdit ? props.content : '',
+            name: props.isEdit ? props.name : ''
         })
         props.handleClose();
     }
@@ -61,9 +61,16 @@ function CodeFileDialog(props) {
         const data = {
             owner: props.owner,
             projectTitle: props.projectTitle,
+            codeId: props.codeId ? props.codeId : '',
             content: state.content,
             language: state.language,
             name: state.name,
+        }
+
+        if (props.isEdit) {
+            props.editCode(data, handleClose)
+        } else {
+            props.createCode(data, handleClose)
         }
     }
 
@@ -74,6 +81,8 @@ function CodeFileDialog(props) {
                 <DialogContentText>{CREATE_CODE_FILE_DESCRIPTION}</DialogContentText>
                 <div style={{display: 'flex'}}>
                     <TextField
+                        style={{marginRight: '10px'}}
+                        label="File Name"
                         margin="dense"
                         name="name"
                         variant="outlined"
@@ -82,9 +91,12 @@ function CodeFileDialog(props) {
                     />
                     <FormControl
                         variant="outlined"
+                        margin="dense"
+                        fullWidth
                     >
                         <InputLabel>Language</InputLabel>
                         <Select
+                            label="Language"
                             name="language"
                             value={state.language}
                             onChange={handleChange}

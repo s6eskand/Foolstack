@@ -7,7 +7,8 @@ import axios from 'axios';
 
 // constants for actions
 import {
-    CREATE_PROJECT, CREATE_README,
+    CREATE_CODE_FILE,
+    CREATE_PROJECT, CREATE_README, EDIT_CODE_FILE,
     GET_GITHUB_REPOS, LIST_ALL_PROJECTS,
     SEARCH_USERS,
 } from "../../constants/project";
@@ -136,10 +137,42 @@ function* createReadme(action) {
     }
 }
 
+function* createCodeFile(action) {
+    yield put(setLoadingStatus(true))
+    try {
+        const response = yield call(() => postAuthRequest(SERVER_ENDPOINTS.CREATE_CODE_FILE, action.file));
+        if (response.status === 200) {
+            yield put(updateProjects(response.data))
+            yield put(setLoadingStatus(false))
+            yield action.close();
+        }
+    } catch (e) {
+        yield put(setLoadingStatus(false))
+        throw new Error(e)
+    }
+}
+
+function* editCodeFile(action) {
+    yield put(setLoadingStatus(true))
+    try {
+        const response = yield call(() => postAuthRequest(SERVER_ENDPOINTS.EDIT_CODE_FILE, action.file));
+        if (response.status === 200) {
+            yield put(updateProjects(response.data))
+            yield put(setLoadingStatus(false))
+            yield action.close();
+        }
+    } catch (e) {
+        yield put(setLoadingStatus(false))
+        throw new Error(e)
+    }
+}
+
 export default function* projectSagas() {
     yield takeLatest(SEARCH_USERS, searchUsers);
     yield takeLatest(GET_GITHUB_REPOS, getGithubRepos);
     yield takeLatest(CREATE_PROJECT, createProject);
     yield takeLatest(LIST_ALL_PROJECTS, listAllProjects);
     yield takeLatest(CREATE_README, createReadme);
+    yield takeLatest(CREATE_CODE_FILE, createCodeFile);
+    yield takeLatest(EDIT_CODE_FILE, editCodeFile);
 }
