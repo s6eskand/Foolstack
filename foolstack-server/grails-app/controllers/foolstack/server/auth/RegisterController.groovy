@@ -9,6 +9,7 @@ class RegisterController {
 
     def registerService
 
+    // controller to register users
     @Secured('permitAll')
     def save() {
 

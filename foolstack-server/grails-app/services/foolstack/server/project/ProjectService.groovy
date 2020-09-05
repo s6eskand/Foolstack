@@ -9,6 +9,8 @@ import groovy.json.JsonSlurper
 @Transactional
 class ProjectService {
 
+    // save user projects after edit or creation
+    // required since Project domain is embedded within User domain, rather than a one to many relationship
     def updateUserProjects(User user, Project project, String projectTitle) {
         Set<Project> projects = new HashSet<>()
         for (Project p : user.projects) {
@@ -25,6 +27,7 @@ class ProjectService {
         }
     }
 
+    // general github request
     def makeGithubRequest(URL url) {
 
         // open HTTP connection
@@ -39,10 +42,19 @@ class ProjectService {
 
     }
 
+    /**
+     * @param null
+     * @return List<Project>: all projects
+     */
     def list() {
         return Project.listOrderById()
     }
 
+    /**
+     *
+     * @param owner: user to get linked projects
+     * @return List<Project>: all projects linked to user
+     */
     def getUserProjects(String owner) {
 
         // check to ensure user exists
@@ -57,6 +69,11 @@ class ProjectService {
         }
     }
 
+    /**
+     *
+     * @param projectTitle
+     * @return Project: spcific project or error
+     */
     def getSpecificProject(String projectTitle) {
         Project project = Project.findByProjectTitle(projectTitle)
         if (!project) {
@@ -68,6 +85,11 @@ class ProjectService {
         }
     }
 
+    /**
+     *
+     * @param githubUsername
+     * @return List<String>: list of all github repos by title
+     */
     def getUserGithubRepositories(String githubUsername) {
 
         Constants constants = new Constants()
@@ -96,6 +118,21 @@ class ProjectService {
         }
     }
 
+    /**
+     *
+     * @param body: {
+     *     username: username of user creating project
+     *     fromGithub: boolean value to know if project imported from github
+     *     githubRepository: if fromGithub, search details of selected repository
+     *     linkIssues: boolean value to know whether or not to link project issues (github only)
+     *     linkCommits: boolean value to know whether or not to link project commits (github only)
+     *     linkPullRequests: boolean value to know whether or not to link project prs (github only)
+     *     isPrivate: boolean value to tell if project is private or not
+     *     projectDescription: project description
+     *     languages: programming languages associated with project
+     * }
+     * @return Project: created project
+     */
     def create(Object body) {
 
         // error object to return if project already exists
@@ -295,6 +332,15 @@ class ProjectService {
 
     }
 
+    /**
+     *
+     * @param body: {
+     *     owner: project owner
+     *     projectTitle: title of project to be edited
+     *     content: readme text content
+     * }
+     * @return Project: edited project
+     */
     def createReadme(Object body) {
         String username = body.owner
         String projectTitle = body.projectTitle
@@ -313,6 +359,17 @@ class ProjectService {
 
     }
 
+    /**
+     *
+     * @param body: {
+     *     owner: owner of project
+     *     projectTitle: title of project
+     *     name: name of code file
+     *     language: language file is written in
+     *     content: content of file
+     * }
+     * @return Project: edited project
+     */
     def createFile(Object body) {
 
         String username = body.owner
@@ -341,6 +398,18 @@ class ProjectService {
 
     }
 
+    /**
+     *
+     * @param body: {
+     *     codeId: uuid of code file
+     *     owner: owner of project
+     *     projectTitle: title of project
+     *     name: name of code file
+     *     language: language file is written in
+     *     content: content of file
+     * }
+     * @return Project: edited project
+     */
     def editCodeFile(Object body) {
 
         String codeId = body.codeId
@@ -376,6 +445,14 @@ class ProjectService {
 
     }
 
+    /**
+     *
+     * @param body: {
+     *      owner: owner of project
+     *      projectTitle: title of project
+     *      name: name of code file
+     * @return Project: edited project
+     */
     def deleteCode(Object body) {
 
         String codeId = body.codeId
@@ -402,6 +479,18 @@ class ProjectService {
 
     }
 
+    /**
+     *
+     * @param body: {
+     *     owner: owner of project
+     *     projectTitle: title of project
+     *     isEdit: whether or not the schema is being edited
+     *     schemaId: internal uuid of schema
+     *     name: name of schema
+     *     fields: fields/data within schema
+     * }
+     * @return Project: edited project
+     */
     def createSchema(Object body) {
 
         String username = body.owner
@@ -455,6 +544,15 @@ class ProjectService {
 
     }
 
+    /**
+     *
+     * @param body: {
+     *     username: username of user deleting schema
+     *     projectTitle: title of project
+     *     schemaId: internal uuid of schema
+     * }
+     * @return Project: edited project
+     */
     def deleteSchema(Object body) {
 
         String username = body.username
@@ -481,6 +579,23 @@ class ProjectService {
 
     }
 
+    /**
+     *
+     * @param body: {
+     *     owner: owner of project
+     *     projectTitle: title of project
+     *     isEdit: whether or not the service is being edited
+     *     serviceId: internal uuid of service
+     *     sampleResponse: sample response object of service
+     *     name: name of service
+     *     requestMethod: HTTP request method of service
+     *     path: path of endpoint
+     *     queryParams: queryParams of request (can be empty)
+     *     sampleRequests: sample requests of request (can be empty)
+     *     responseFields: response fields returned by service (can be empty)
+     * }
+     * @return Project: edited project
+     */
     def createOrEditService(Object body) {
 
         String username = body.owner
@@ -542,6 +657,15 @@ class ProjectService {
         return project
     }
 
+    /**
+     *
+     * @param body: {
+     *     username: username of user deleting service
+     *     projectTitle: title of project
+     *     serviceId: internal uuid of service
+     * }
+     * @return Project: edited project
+     */
     def deleteService(Object body) {
 
         String username = body.username
@@ -568,6 +692,14 @@ class ProjectService {
 
     }
 
+    /**
+     *
+     * @param body: {
+     *     owner: owner of project to be deleted
+     *     projectTitle: title of project to be deleted
+     * }
+     * @return null
+     */
     def deleteProject(Object body) {
 
         String username = body.owner

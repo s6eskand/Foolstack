@@ -14,16 +14,22 @@ class AccountController {
 
     def accountService
 
+    // controller to list all registered accounts
+    // no auth required as reading privileges do not require account
     @Secured('permitAll')
     def list() {
         respond accountService.listAllUsers()
     }
 
+    // controller to get specific user
+    // secured as specific entries are handled for writing purposes
     @Secured(['ROLE_USER'])
     def getUser() {
         respond accountService.getUser(request.JSON)
     }
 
+    // controller to edit account of specified user
+    // secured
     @Secured(['ROLE_USER'])
     def edit() {
         response.setContentType('application/json')
