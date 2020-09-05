@@ -1,4 +1,9 @@
 # Foolstack
+
+![Project Demo](readme-content/Foolstack-Google-Chrome-2020-09.gif)
+
+(*The demo did not capture my file system dialog, selecting images loads them from file :)*)
+
 ## Create, Design, and Document Projects with ease
 
 Foolstack is an interactive software architechture design, and documentation software.
