@@ -6,6 +6,17 @@ import grails.gorm.transactions.Transactional
 @Transactional
 class RegisterService {
 
+    /**
+     *
+     * @param body: {
+     *     username: username submitted by user,
+     *     firstname: firstname of user,
+     *     lastname: lastname of user,
+     *     password: user password to be encoded,
+     *     email: email of user
+     * }
+     * @return null
+     */
     def register(Object body) {
         Set<Role> roles = new HashSet<>()
         def role = new Role(authority: "ROLE_USER").save(flush: true)

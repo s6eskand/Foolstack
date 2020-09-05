@@ -9,14 +9,30 @@ import java.awt.Image
 @Transactional
 class AccountService {
 
+    /**
+     * @param none
+     * @return List<User>: list of all users
+     */
     def listAllUsers() {
         return User.listOrderById()
     }
 
+    /**
+     *
+     * @param body {
+     *     username: username submitted
+     * }
+     * @return User: the specific user
+     */
     def getUser(Object body) {
         return User.findByUsername(body.username)
     }
 
+    /**
+     *
+     * @param searchValue: piece of searched username
+     * @return List<User>: list of all matching users
+     */
     def listUsers(String searchValue) {
         def criteria = User.createCriteria()
         def query = criteria.list {
@@ -26,6 +42,18 @@ class AccountService {
         return query
     }
 
+    /**
+     *
+     * @param body {
+     *     username: username submitted for request
+     *     githubUsername: linked github username submitted by username
+     *     biography: submitted biography of user
+     *     websiteLink: submitted website of user
+     *     socialLink: social website submitted by user
+     *     profilePicture: base64 string to be saved as profile picture (converted through JS)
+     * }
+     * @return
+     */
     def editProfile(Object body) {
 
         Constants constants = new Constants()
