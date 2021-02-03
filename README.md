@@ -28,7 +28,7 @@ This project was built using **React, Grails, MongoDB, JavaScript, Groovy, Java,
 ***Backend***
   * Built using **Grails**, **Groovy**, and **Java**
   * Developed Grails services to interact with **Github** and **Bitbucket** API's
-  * Application secured through **GORM Token authentication**, using **Spring Security**
+  * Application secured through **JWT authentication**, using **Spring Security**
   * Hosted on **Azure** through a Tomcat instance
   
 ***Database***
