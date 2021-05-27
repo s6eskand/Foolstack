@@ -96,10 +96,10 @@ management:
 ---
 grails:
     mongodb:
-        host: foolstack-shard-00-01.agcmt.azure.mongodb.net
+        host: foolstack-db-cluster-shard-00-02.nci7x.mongodb.net
         port: 27017
-        username: ""
-        password: ""
+        username: "foolstack"
+        password: "t4nbf65zM45F10Cm"
         databaseName: "foolstack"
 
 ---
@@ -141,10 +141,10 @@ environments:
     production:
         grails:
             mongodb:
-                host: foolstack-shard-00-01.agcmt.azure.mongodb.net
+                host: foolstack-db-cluster-shard-00-02.nci7x.mongodb.net
                 port: 27017
-                username: ""
-                password: ""
+                username: "foolstack"
+                password: "t4nbf65zM45F10Cm"
                 databaseName: "foolstack"
 #        dataSource:
 #            dbCreate: none

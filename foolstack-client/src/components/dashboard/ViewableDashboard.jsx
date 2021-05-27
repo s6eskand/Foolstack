@@ -15,7 +15,7 @@ const ViewableDashboard = (props) => {
 
     useEffect(() => {
         props.listAllUsers();
-    }, [props.users])
+    }, [])
 
     const findUserIndex = () => {
         if (props.users) {

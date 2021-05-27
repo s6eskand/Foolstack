@@ -10,9 +10,4 @@ class CodeSpec extends Specification implements DomainUnitTest<Code> {
 
     def cleanup() {
     }
-
-    void "test something"() {
-        expect:"fix me"
-            true == false
-    }
 }

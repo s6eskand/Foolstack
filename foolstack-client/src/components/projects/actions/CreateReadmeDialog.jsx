@@ -108,7 +108,7 @@ function CreateReadmeDialog(props) {
                 </Button>
                 <Button
                     onClick={handleCreate}
-                    disabled={content.length === 0}
+                    disabled={content?.length === 0}
                     variant="contained"
                     style={{backgroundColor: '#4EB6C4'}}
                 >

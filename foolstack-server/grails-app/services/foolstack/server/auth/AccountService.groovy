@@ -78,12 +78,14 @@ class AccountService {
         }
 
         // check image size to ensure compatibility
-        String base64String = profilePicture.tokenize(',')[1]
-        byte[] bytes = Base64.decoder.decode(base64String)
-        InputStream inputStream = new ByteArrayInputStream(bytes)
-        Image image = ImageIO.read(inputStream)
-        if (image.height > 260 || image.width > 260) {
-            return '{"success": false, "message": "Image dimensions of '+image.width+' by '+image.height+' exceed maximum of 260"}'
+        if (profilePicture) {
+            String base64String = profilePicture.tokenize(',')[1]
+            byte[] bytes = Base64.decoder.decode(base64String)
+            InputStream inputStream = new ByteArrayInputStream(bytes)
+            Image image = ImageIO.read(inputStream)
+            if (image.height > 260 || image.width > 260) {
+                return '{"success": false, "message": "Image dimensions of ' + image.width + ' by ' + image.height + ' exceed maximum of 260"}'
+            }
         }
 
 

@@ -10,9 +10,4 @@ class AccountServiceSpec extends Specification implements ServiceUnitTest<Accoun
 
     def cleanup() {
     }
-
-    void "test something"() {
-        expect:"fix me"
-            true == false
-    }
 }
